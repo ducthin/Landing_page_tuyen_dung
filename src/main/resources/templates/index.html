@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tuyển Dụng - Nộp Hồ Sơ Ứng Tuyển</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">    <style>
+        body {
+            background-color: #f5f5f5;
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .container {
+            padding: 2rem 0;
+        }
+        
+        .form-container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 3rem;
+            margin: 2rem auto;
+            max-width: 600px;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .header-section {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .header-section h1 {
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .header-section p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .form-label i {
+            margin-right: 0.5rem;
+            color: #6c757d;
+        }
+        
+        .form-control {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+        
+        .btn-submit {
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: white;
+            width: 100%;
+            transition: background-color 0.3s ease;
+            margin-top: 1rem;
+        }
+        
+        .btn-submit:hover {
+            background-color: #0056b3;
+        }
+        
+        .error-message {
+            color: #dc3545;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+        
+        .file-upload-container {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: 100%;
+        }
+        
+        .file-upload-container input[type=file] {
+            position: absolute;
+            left: -9999px;
+        }
+        
+        .file-upload-label {
+            background: #f8f9fa;
+            border: 2px dashed #ddd;
+            border-radius: 4px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+        }
+        
+        .file-upload-label:hover {
+            border-color: #007bff;
+            background: #e3f2fd;
+        }
+        
+        .file-upload-text {
+            color: #666;
+            font-size: 1rem;
+        }
+        
+        .file-name {
+            margin-top: 0.5rem;
+            color: #333;
+            font-weight: 600;
+        }
+        
+        .alert {
+            border-radius: 4px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .form-container {
+                margin: 1rem;
+                padding: 2rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <div class="header-section">
+                <h1><i class="fas fa-briefcase"></i> Ứng Tuyển Vị Trí</h1>
+                <p>Điền thông tin của bạn để ứng tuyển vào công ty chúng tôi</p>
+            </div>
+            
+            <!-- Error Messages -->
+            <div th:if="${errorMessage}" class="alert alert-danger">
+                <i class="fas fa-exclamation-circle"></i>
+                <span th:text="${errorMessage}"></span>
+            </div>
+            
+            <form th:action="@{/submit}" method="post" enctype="multipart/form-data" th:object="${candidate}">
+                
+                <!-- Họ và tên -->
+                <div class="form-group">
+                    <label class="form-label" for="fullName">
+                        <i class="fas fa-user"></i>
+                        Họ và tên <span style="color: red;">*</span>
+                    </label>
+                    <input type="text" 
+                           class="form-control" 
+                           id="fullName" 
+                           th:field="*{fullName}"
+                           placeholder="Nhập họ và tên đầy đủ của bạn">
+                    <div class="error-message" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></div>
+                </div>
+                
+                <!-- Số điện thoại -->
+                <div class="form-group">
+                    <label class="form-label" for="phoneNumber">
+                        <i class="fas fa-phone"></i>
+                        Số điện thoại <span style="color: red;">*</span>
+                    </label>
+                    <input type="tel" 
+                           class="form-control" 
+                           id="phoneNumber" 
+                           th:field="*{phoneNumber}"
+                           placeholder="Ví dụ: 0901234567">
+                    <div class="error-message" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></div>
+                </div>
+                
+                <!-- Địa chỉ -->
+                <div class="form-group">
+                    <label class="form-label" for="address">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Địa chỉ <span style="color: red;">*</span>
+                    </label>
+                    <textarea class="form-control" 
+                              id="address" 
+                              th:field="*{address}"
+                              rows="3"
+                              placeholder="Nhập địa chỉ hiện tại của bạn"></textarea>
+                    <div class="error-message" th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></div>
+                </div>
+                
+                <!-- Thời gian có thể nhận việc -->
+                <div class="form-group">
+                    <label class="form-label" for="availableStartTime">
+                        <i class="fas fa-calendar-alt"></i>
+                        Thời gian có thể nhận việc <span style="color: red;">*</span>
+                    </label>
+                    <input type="text" 
+                           class="form-control" 
+                           id="availableStartTime" 
+                           th:field="*{availableStartTime}"
+                           placeholder="Ví dụ: Ngay lập tức, Sau 2 tuần, Tháng 7/2025...">
+                    <div class="error-message" th:if="${#fields.hasErrors('availableStartTime')}" th:errors="*{availableStartTime}"></div>
+                </div>
+                
+                <!-- Upload CV -->
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-file-upload"></i>
+                        Tải lên CV <span style="color: red;">*</span>
+                    </label>
+                    <div class="file-upload-container">
+                        <input type="file" 
+                               id="cvFile" 
+                               name="cvFile" 
+                               accept=".pdf,.doc,.docx"
+                               onchange="updateFileName(this)">                        <label for="cvFile" class="file-upload-label">
+                            <i class="fas fa-cloud-upload-alt fa-2x" style="color: #6c757d; margin-bottom: 1rem;"></i>
+                            <div class="file-upload-text">
+                                <strong>Chọn file CV</strong><br>
+                                Chấp nhận file PDF, DOC, DOCX (tối đa 5MB)
+                            </div>
+                            <div class="file-name" id="fileName" style="display: none;"></div>
+                        </label>
+                    </div>
+                    <div class="error-message" th:if="${#fields.hasErrors('cvFile')}" th:errors="*{cvFile}"></div>
+                </div>
+                
+                <!-- Submit button -->
+                <button type="submit" class="btn btn-submit">
+                    <i class="fas fa-paper-plane"></i>
+                    Gửi Hồ Sơ Ứng Tuyển
+                </button>
+                
+            </form>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function updateFileName(input) {
+            const fileNameDiv = document.getElementById('fileName');
+            const fileUploadText = document.querySelector('.file-upload-text');
+            
+            if (input.files && input.files[0]) {
+                const fileName = input.files[0].name;
+                fileNameDiv.textContent = 'Đã chọn: ' + fileName;
+                fileNameDiv.style.display = 'block';
+                fileUploadText.innerHTML = '<strong>File đã được chọn</strong><br>Nhấp để thay đổi file khác';
+            } else {
+                fileNameDiv.style.display = 'none';
+                fileUploadText.innerHTML = '<strong>Chọn file CV</strong><br>Chấp nhận file PDF, DOC, DOCX (tối đa 5MB)';
+            }
+        }
+    </script>
+</body>
+</html>
