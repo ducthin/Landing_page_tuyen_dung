@@ -4,7 +4,7 @@ spring.application.name=Recruitment Landing Page
 spring.datasource.url=jdbc:mysql://localhost:3306/recruitment_db?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=Asia/Ho_Chi_Minh
 spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
 spring.datasource.username=root
-spring.datasource.password=ducthinh123
+spring.datasource.password=YOUR_MYSQL_PASSWORD_HERE
 
 # JPA configuration
 spring.jpa.database-platform=org.hibernate.dialect.MySQLDialect

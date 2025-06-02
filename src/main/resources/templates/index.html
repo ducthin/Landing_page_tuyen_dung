@@ -133,17 +133,105 @@
             color: #333;
             font-weight: 600;
         }
-        
-        .alert {
+          .alert {
             border-radius: 4px;
             padding: 1rem;
             margin-bottom: 1.5rem;
+        }
+        
+        .map-section {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 2rem;
+            margin: 2rem auto;
+            max-width: 600px;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .map-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .map-header h3 {
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .map-header p {
+            color: #666;
+            margin-bottom: 0;
+        }
+        
+        .map-container {
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #ddd;
+        }
+        
+        .map-container iframe {
+            width: 100%;
+            height: 300px;
+            border: none;
+        }
+        
+        .company-info {
+            background: #f8f9fa;
+            border-radius: 4px;
+            padding: 1rem;
+            margin-top: 1rem;
+            text-align: center;
+        }
+        
+        .company-info .address {
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+          .company-info .contact {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .map-actions {
+            margin-top: 1rem;
+            text-align: center;
+        }
+        
+        .btn-map {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            text-decoration: none;
+            display: inline-block;
+            margin: 0 0.5rem;
+            transition: background-color 0.3s ease;
+        }
+        
+        .btn-map:hover {
+            background-color: #218838;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .btn-map i {
+            margin-right: 0.5rem;
         }
         
         @media (max-width: 768px) {
             .form-container {
                 margin: 1rem;
                 padding: 2rem 1.5rem;
+            }
+            
+            .map-section {
+                margin: 1rem;
+                padding: 1.5rem;
             }
         }
     </style>
@@ -248,8 +336,43 @@
                     <i class="fas fa-paper-plane"></i>
                     Gửi Hồ Sơ Ứng Tuyển
                 </button>
+                  </form>
+        </div>
+        
+        <!-- Google Maps Section -->
+        <div class="map-section">
+            <div class="map-header">
+                <h3><i class="fas fa-map-marker-alt"></i> Vị Trí Công Ty</h3>
+                <p>Nhấp vào bản đồ để xem đường đi chi tiết</p>
+            </div>            <div class="map-container">
+                <!-- Google Maps Embed cho FPT Tower -->
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1195.560994707617!2d108.22215583896383!3d16.076786575211347!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3142183c630e8161%3A0x9656b8df7b3bcbc8!2zU-G7nyBOZ2_huqFpIHbhu6UgxJDDoCBO4bq1bmc!5e1!3m2!1svi!2s!4v1748870688006!5m2!1svi!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div><div class="company-info">
+                <!-- VÍ DỤ: Thông tin công ty mẫu -->
+                <div class="address">
+                    <i class="fas fa-building"></i>
+                    Công Ty Cổ Phần Công Nghệ FPT
+                </div>
+                <div class="contact">
+                    <i class="fas fa-map-marker-alt"></i> Tòa nhà FPT, 17 Duy Tân, Cầu Giấy, Hà Nội<br>
+                    <i class="fas fa-phone"></i> 024.7300.8866 | 
+                    <i class="fas fa-envelope"></i> careers@fpt.com.vn
+                </div>
                 
-            </form>
+                <div class="map-actions">
+                    <!-- Tọa độ của FPT Tower làm ví dụ -->
+                    <a href="https://www.google.com/maps/dir//16.076742760907923, 108.22299939369147" 
+                       target="_blank" 
+                       class="btn-map">
+                        <i class="fas fa-route"></i>Chỉ đường
+                    </a>
+                    <a href="https://www.google.com/maps/place/16.076742760907923, 108.22299939369147" 
+                       target="_blank" 
+                       class="btn-map">
+                        <i class="fas fa-external-link-alt"></i>Mở Google Maps
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
     

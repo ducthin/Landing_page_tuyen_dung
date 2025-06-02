@@ -1,7 +1,10 @@
 package com.recruitment.landingpage.controller;
 
 import com.recruitment.landingpage.model.Candidate;
+import com.recruitment.landingpage.entity.CandidateEntity;
+import com.recruitment.landingpage.repository.CandidateRepository;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,6 +22,9 @@ import java.util.UUID;
 
 @Controller
 public class RecruitmentController {
+    
+    @Autowired
+    private CandidateRepository candidateRepository;
     
     private static final String UPLOAD_DIR = "uploads/";
     
@@ -73,13 +79,21 @@ public class RecruitmentController {
             String uniqueFilename = UUID.randomUUID().toString() + fileExtension;
             Path filePath = uploadPath.resolve(uniqueFilename);
             Files.copy(file.getInputStream(), filePath);
-            
-            // Set the file to candidate object
+              // Set the file to candidate object
             candidate.setCvFile(file);
             
-            // Here you would typically save to database
-            // For now, we'll just log the information
-            System.out.println("New application received: " + candidate.toString());
+            // Save to database
+            CandidateEntity candidateEntity = new CandidateEntity(
+                candidate.getFullName(),
+                candidate.getPhoneNumber(), 
+                candidate.getAddress(),
+                candidate.getAvailableStartTime(),
+                uniqueFilename,
+                originalFilename
+            );
+            candidateRepository.save(candidateEntity);
+            
+            System.out.println("New application saved to database: " + candidateEntity.getId());
             System.out.println("CV file saved as: " + uniqueFilename);
             
             redirectAttributes.addFlashAttribute("successMessage", 

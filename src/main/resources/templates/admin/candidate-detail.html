@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi tiết ứng viên - Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .card {
+            border: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .profile-header {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            padding: 2rem;
+            border-radius: 10px 10px 0 0;
+        }
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .info-item {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        .info-item:last-child {
+            border-bottom: none;
+        }
+        .info-label {
+            font-weight: 600;
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+        .info-value {
+            font-size: 1.1rem;
+            color: #333;
+        }
+        .btn-back {
+            background: #6c757d;
+            border: none;
+        }
+        .btn-back:hover {
+            background: #5a6268;
+        }
+        .cv-preview {
+            background: #f8f9fa;
+            border: 2px dashed #dee2e6;
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+        }
+        .timeline-item {
+            border-left: 3px solid #007bff;
+            padding-left: 1rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body class="bg-light">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="/admin/dashboard">
+                <i class="fas fa-users-cog me-2"></i>
+                Admin Dashboard
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="/admin/dashboard">
+                    <i class="fas fa-arrow-left me-1"></i>Quay lại danh sách
+                </a>
+                <a class="nav-link" href="/logout">
+                    <i class="fas fa-sign-out-alt me-1"></i>Đăng xuất
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container py-4">
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
+                <li class="breadcrumb-item active">Chi tiết ứng viên</li>
+            </ol>
+        </nav>
+
+        <div class="row">
+            <!-- Main Information -->
+            <div class="col-md-8">
+                <div class="card mb-4">
+                    <div class="profile-header">
+                        <div class="row align-items-center">
+                            <div class="col-auto">
+                                <div class="profile-avatar">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <h2 class="mb-1" th:text="${candidate.fullName}">Nguyễn Văn A</h2>                                <p class="mb-0 opacity-75">
+                                    <i class="fas fa-calendar me-2"></i>
+                                    Ứng tuyển ngày <span th:text="${#temporals.format(candidate.createdAt, 'dd/MM/yyyy ''lúc'' HH:mm')}">01/01/2024 lúc 10:00</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="info-item">
+                            <div class="info-label">
+                                <i class="fas fa-phone text-primary me-2"></i>Số điện thoại
+                            </div>
+                            <div class="info-value" th:text="${candidate.phoneNumber}">0123456789</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">
+                                <i class="fas fa-map-marker-alt text-primary me-2"></i>Địa chỉ
+                            </div>
+                            <div class="info-value" th:text="${candidate.address}">Hà Nội, Việt Nam</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">
+                                <i class="fas fa-clock text-primary me-2"></i>Thời gian có thể làm việc
+                            </div>
+                            <div class="info-value">
+                                <span class="badge bg-success fs-6" th:text="${candidate.availableStartTime}">Ngay lập tức</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CV Section -->
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="fas fa-file-pdf me-2"></i>CV của ứng viên
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div th:if="${candidate.cvFilename}" class="cv-preview">
+                            <i class="fas fa-file-pdf fa-4x text-danger mb-3"></i>
+                            <h5 th:text="${candidate.cvOriginalFilename}">CV_NguyenVanA.pdf</h5>
+                            <p class="text-muted mb-3">Nhấn vào nút bên dưới để tải xuống CV</p>
+                            <a th:href="@{/admin/download-cv/{id}(id=${candidate.id})}" 
+                               class="btn btn-primary btn-lg">
+                                <i class="fas fa-download me-2"></i>Tải xuống CV
+                            </a>
+                        </div>
+                        <div th:unless="${candidate.cvFilename}" class="cv-preview">
+                            <i class="fas fa-exclamation-triangle fa-4x text-warning mb-3"></i>
+                            <h5>Không có CV</h5>
+                            <p class="text-muted">Ứng viên chưa tải lên CV</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="col-md-4">
+                <!-- Actions -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h6 class="mb-0">
+                            <i class="fas fa-cogs me-2"></i>Thao tác
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-grid gap-2">
+                            <a th:if="${candidate.cvFilename}" 
+                               th:href="@{/admin/download-cv/{id}(id=${candidate.id})}" 
+                               class="btn btn-success">
+                                <i class="fas fa-download me-2"></i>Tải CV
+                            </a>
+                            <a href="tel:${candidate.phoneNumber}" 
+                               th:href="@{'tel:' + ${candidate.phoneNumber}}"
+                               class="btn btn-outline-primary">
+                                <i class="fas fa-phone me-2"></i>Gọi điện
+                            </a>                            <button class="btn btn-outline-danger" 
+                                    th:data-candidate-id="${candidate.id}"
+                                    th:data-candidate-name="${candidate.fullName}"
+                                    onclick="confirmDelete(this.dataset.candidateId, this.dataset.candidateName)">
+                                <i class="fas fa-trash me-2"></i>Xóa ứng viên
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Statistics -->
+                <div class="card">
+                    <div class="card-header">
+                        <h6 class="mb-0">
+                            <i class="fas fa-chart-bar me-2"></i>Thông tin thêm
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="timeline-item">
+                            <strong>ID ứng viên:</strong> <span class="badge bg-secondary" th:text="${candidate.id}">1</span>
+                        </div>
+                        <div class="timeline-item">
+                            <strong>Ngày ứng tuyển:</strong><br>
+                            <small th:text="${#temporals.format(candidate.createdAt, 'EEEE, dd MMMM yyyy')}">Thứ Hai, 01 Tháng 1 2024</small>
+                        </div>
+                        <div class="timeline-item">
+                            <strong>Thời gian ứng tuyển:</strong><br>
+                            <small th:text="${#temporals.format(candidate.createdAt, 'HH:mm:ss')}">10:30:15</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Back Button -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <a href="/admin/dashboard" class="btn btn-back text-white">
+                    <i class="fas fa-arrow-left me-2"></i>Quay lại danh sách ứng viên
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Xác nhận xóa</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Bạn có chắc chắn muốn xóa ứng viên <strong id="candidateName"></strong>?</p>
+                    <p class="text-danger">
+                        <i class="fas fa-exclamation-triangle me-1"></i>
+                        Thao tác này sẽ xóa cả thông tin ứng viên và CV đã tải lên. Không thể hoàn tác!
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <a id="deleteConfirmBtn" href="#" class="btn btn-danger">Xóa</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function confirmDelete(candidateId, candidateName) {
+            document.getElementById('candidateName').textContent = candidateName;
+            document.getElementById('deleteConfirmBtn').href = '/admin/delete-candidate/' + candidateId;
+            new bootstrap.Modal(document.getElementById('deleteModal')).show();
+        }
+    </script>
+</body>
+</html>
