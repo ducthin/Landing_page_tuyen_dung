@@ -3,8 +3,10 @@ package com.recruitment.landingpage.controller;
 import com.recruitment.landingpage.model.Candidate;
 import com.recruitment.landingpage.entity.CandidateEntity;
 import com.recruitment.landingpage.repository.CandidateRepository;
+import com.recruitment.landingpage.service.EmailService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,7 +28,16 @@ public class RecruitmentController {
     @Autowired
     private CandidateRepository candidateRepository;
     
-    private static final String UPLOAD_DIR = "uploads/";
+    @Autowired
+    private EmailService emailService;
+    
+    // Cấu hình từ application.properties
+    @Value("${app.upload.dir:uploads/}")
+    private String uploadDir;
+    
+    // Tùy chọn lưu trữ: DATABASE hoặc FILE
+    @Value("${app.storage.type:DATABASE}")
+    private String storageType;
     
     @GetMapping("/")
     public String index(Model model) {
@@ -65,36 +76,59 @@ public class RecruitmentController {
         }
         
         try {
-            // Create upload directory if it doesn't exist
-            Path uploadPath = Paths.get(UPLOAD_DIR);
-            if (!Files.exists(uploadPath)) {
-                Files.createDirectories(uploadPath);
-            }
-              // Save file with unique name
-            String originalFilename = file.getOriginalFilename();
-            if (originalFilename == null || originalFilename.isEmpty()) {
-                originalFilename = "cv.pdf";
-            }
-            String fileExtension = originalFilename.substring(originalFilename.lastIndexOf("."));
-            String uniqueFilename = UUID.randomUUID().toString() + fileExtension;
-            Path filePath = uploadPath.resolve(uniqueFilename);
-            Files.copy(file.getInputStream(), filePath);
-              // Set the file to candidate object
-            candidate.setCvFile(file);
+            CandidateEntity candidateEntity;
             
-            // Save to database
-            CandidateEntity candidateEntity = new CandidateEntity(
-                candidate.getFullName(),
-                candidate.getPhoneNumber(), 
-                candidate.getAddress(),
-                candidate.getAvailableStartTime(),
-                uniqueFilename,
-                originalFilename
-            );
+            if ("DATABASE".equals(storageType)) {
+                // Option 1: Lưu file vào database
+                candidateEntity = new CandidateEntity(
+                    candidate.getFullName(),
+                    candidate.getPhoneNumber(), 
+                    candidate.getAddress(),
+                    candidate.getAvailableStartTime(),
+                    file.getBytes(),  // Lưu file data vào database
+                    file.getContentType(),
+                    file.getOriginalFilename()
+                );
+                System.out.println("CV saved to DATABASE");
+                
+            } else {
+                // Option 2: Lưu file vào thư mục
+                Path uploadPath = Paths.get(uploadDir);
+                if (!Files.exists(uploadPath)) {
+                    Files.createDirectories(uploadPath);
+                }
+                
+                String originalFilename = file.getOriginalFilename();
+                if (originalFilename == null || originalFilename.isEmpty()) {
+                    originalFilename = "cv.pdf";
+                }
+                String fileExtension = originalFilename.substring(originalFilename.lastIndexOf("."));
+                String uniqueFilename = UUID.randomUUID().toString() + fileExtension;
+                Path filePath = uploadPath.resolve(uniqueFilename);
+                Files.copy(file.getInputStream(), filePath);
+                
+                candidateEntity = new CandidateEntity(
+                    candidate.getFullName(),
+                    candidate.getPhoneNumber(), 
+                    candidate.getAddress(),
+                    candidate.getAvailableStartTime(),
+                    uniqueFilename,
+                    originalFilename
+                );
+                System.out.println("CV saved to FILE: " + uploadPath.resolve(uniqueFilename));
+            }
+              candidate.setCvFile(file);
             candidateRepository.save(candidateEntity);
             
             System.out.println("New application saved to database: " + candidateEntity.getId());
-            System.out.println("CV file saved as: " + uniqueFilename);
+            
+            // Gửi email thông báo cho admin
+            try {
+                emailService.sendNewCandidateNotification(candidateEntity);
+            } catch (Exception e) {
+                System.err.println("Failed to send email notification: " + e.getMessage());
+                // Không dừng quá trình xử lý chính nếu gửi email thất bại
+            }
             
             redirectAttributes.addFlashAttribute("successMessage", 
                 "Cảm ơn bạn đã ứng tuyển! Chúng tôi sẽ liên hệ với bạn sớm nhất.");
