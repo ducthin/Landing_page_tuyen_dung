@@ -209,19 +209,6 @@ GET http://localhost:8080/test-email
 - Database connection status
 - File upload status
 
-## 🔧 Tính năng nâng cao có thể bổ sung
-
-- [ ] 📱 **Mobile App** (React Native/Flutter)
-- [ ] 🌐 **Multi-language** support (EN/VI)
-- [ ] 📈 **Analytics** dashboard
-- [ ] 🔔 **Real-time notifications**
-- [ ] 📋 **Interview scheduling**
-- [ ] 💼 **Multiple job positions**
-- [ ] 🔍 **Advanced search & filters**
-- [ ] 📊 **Export reports** (Excel/PDF)
-- [ ] 🔐 **OAuth login** (Google/Facebook)
-- [ ] ☁️ **Cloud storage** (AWS S3/Google Drive)
-
 ## 🤝 Đóng góp
 
 Mọi đóng góp đều được chào đón! 
