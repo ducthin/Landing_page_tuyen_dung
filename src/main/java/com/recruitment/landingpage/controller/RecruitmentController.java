@@ -10,9 +10,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -42,8 +44,7 @@ public class RecruitmentController {
         model.addAttribute("candidate", new Candidate());
         return "index";
     }
-    
-    @PostMapping("/submit")
+      @PostMapping("/submit")
     public String submitApplication(@Valid Candidate candidate, 
                                    BindingResult bindingResult,
                                    @RequestParam("cvFile") MultipartFile file,
@@ -54,6 +55,12 @@ public class RecruitmentController {
         if (file.isEmpty()) {
             bindingResult.rejectValue("cvFile", "file.empty", "Vui lòng chọn file CV");
         } else {
+            // Check file size (5MB max) - Kiểm tra trước khi xử lý file
+            if (file.getSize() > 5 * 1024 * 1024) {
+                bindingResult.rejectValue("cvFile", "file.size", 
+                    "File quá lớn! Kích thước hiện tại: " + String.format("%.2f", file.getSize() / (1024.0 * 1024.0)) + "MB. Tối đa cho phép: 5MB");
+            }
+            
             // Check file type
             String contentType = file.getContentType();
             if (contentType == null || 
@@ -61,11 +68,6 @@ public class RecruitmentController {
                  !contentType.equals("application/msword") && 
                  !contentType.equals("application/vnd.openxmlformats-officedocument.wordprocessingml.document"))) {
                 bindingResult.rejectValue("cvFile", "file.type", "Chỉ chấp nhận file PDF, DOC, DOCX");
-            }
-            
-            // Check file size (5MB max)
-            if (file.getSize() > 5 * 1024 * 1024) {
-                bindingResult.rejectValue("cvFile", "file.size", "File không được vượt quá 5MB");
             }
         }
         
@@ -75,8 +77,8 @@ public class RecruitmentController {
         
         try {
             CandidateEntity candidateEntity;
-            
-            if ("DATABASE".equals(storageType)) {
+              if ("DATABASE".equals(storageType)) {
+                // Lưu CV vào database
                 candidateEntity = new CandidateEntity(
                     candidate.getFullName(),
                     candidate.getPhoneNumber(), 
@@ -86,7 +88,7 @@ public class RecruitmentController {
                     file.getContentType(),
                     file.getOriginalFilename()
                 );
-                System.out.println("CV saved to DATABASE");
+                System.out.println("CV saved to DATABASE - Size: " + file.getBytes().length + " bytes");
                 
             } else {
                 Path uploadPath = Paths.get(uploadDir);
@@ -126,10 +128,19 @@ public class RecruitmentController {
             
             redirectAttributes.addFlashAttribute("successMessage", 
                 "Cảm ơn bạn đã ứng tuyển! Chúng tôi sẽ liên hệ với bạn sớm nhất.");
-            
-        } catch (IOException e) {
+              } catch (IOException e) {
             e.printStackTrace();
-            model.addAttribute("errorMessage", "Có lỗi xảy ra khi tải file. Vui lòng thử lại.");
+            System.err.println("File upload error: " + e.getMessage());
+            model.addAttribute("candidate", candidate);
+            model.addAttribute("errorMessage", 
+                "Lỗi khi xử lý file: " + e.getMessage() + ". Vui lòng kiểm tra lại file và thử lại.");
+            return "index";
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("General error during application submission: " + e.getMessage());
+            model.addAttribute("candidate", candidate);
+            model.addAttribute("errorMessage", 
+                "Có lỗi xảy ra khi gửi đơn ứng tuyển. Vui lòng thử lại sau.");
             return "index";
         }
         
@@ -139,5 +150,27 @@ public class RecruitmentController {
     @GetMapping("/success")
     public String success() {
         return "success";
+    }
+    
+    /**
+     * Xử lý exception khi file upload quá kích thước cho phép
+     */
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public String handleMaxSizeException(MaxUploadSizeExceededException ex, Model model) {
+        model.addAttribute("candidate", new Candidate());
+        model.addAttribute("errorMessage", 
+            "File quá lớn! Kích thước tối đa cho phép là 5MB. Vui lòng chọn file nhỏ hơn.");
+        return "index";
+    }
+    
+    /**
+     * Xử lý các exception chung khi upload file
+     */
+    @ExceptionHandler({IOException.class, Exception.class})
+    public String handleFileUploadException(Exception ex, Model model) {
+        model.addAttribute("candidate", new Candidate());
+        model.addAttribute("errorMessage", 
+            "Có lỗi xảy ra khi tải file: " + ex.getMessage() + ". Vui lòng thử lại.");
+        return "index";
     }
 }

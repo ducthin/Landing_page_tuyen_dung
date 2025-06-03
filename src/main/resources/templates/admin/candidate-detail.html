@@ -106,7 +106,8 @@
                                 </div>
                             </div>
                             <div class="col">
-                                <h2 class="mb-1" th:text="${candidate.fullName}">Nguyễn Văn A</h2>                                <p class="mb-0 opacity-75">
+                                <h2 class="mb-1" th:text="${candidate.fullName}">Nguyễn Văn A</h2>                                
+                                <p class="mb-0 opacity-75">
                                     <i class="fas fa-calendar me-2"></i>
                                     Ứng tuyển ngày <span th:text="${#temporals.format(candidate.createdAt, 'dd/MM/yyyy ''lúc'' HH:mm')}">01/01/2024 lúc 10:00</span>
                                 </p>
@@ -144,18 +145,12 @@
                             <i class="fas fa-file-pdf me-2"></i>CV của ứng viên
                         </h5>
                     </div>
-                    <div class="card-body">                        <div th:if="${candidate.cvFilename != null or candidate.cvData != null}" class="cv-preview">
+                    <div class="card-body">                        
+                        <div th:if="${candidate.cvFilename != null or candidate.cvData != null}" class="cv-preview">
                             <i class="fas fa-file-pdf fa-4x text-danger mb-3"></i>
                             <h5 th:text="${candidate.cvOriginalFilename}">CV_NguyenVanA.pdf</h5>
                             <p class="text-muted mb-3">Xem trực tiếp hoặc tải xuống CV</p>
                             <div class="d-flex gap-2 justify-content-center">
-                                <button type="button" class="btn btn-success btn-lg" 
-                                        data-bs-toggle="modal" 
-                                        data-bs-target="#cvModal"
-                                        th:data-cv-url="@{/admin/view-cv/{id}(id=${candidate.id})}"
-                                        onclick="loadCVInModal(this.dataset.cvUrl)">
-                                    <i class="fas fa-eye me-2"></i>Xem CV (Modal)
-                                </button>
                                 <a th:href="@{/admin/view-cv/{id}(id=${candidate.id})}" 
                                    class="btn btn-info btn-lg"
                                    target="_blank">
@@ -184,7 +179,8 @@
                         <h6 class="mb-0">
                             <i class="fas fa-cogs me-2"></i>Thao tác
                         </h6>
-                    </div>                    <div class="card-body">
+                    </div>                    
+                    <div class="card-body">
                         <div class="d-grid gap-2">
                             <div th:if="${candidate.cvFilename != null or candidate.cvData != null}" class="btn-group-vertical">
                                 <a th:href="@{/admin/view-cv/{id}(id=${candidate.id})}" 
