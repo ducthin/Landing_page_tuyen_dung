@@ -20,11 +20,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .authorizeHttpRequests(authz -> authz                // Public pages - không cần đăng nhập
+            .authorizeHttpRequests(authz -> authz               
                 .requestMatchers("/", "/submit", "/success", "/css/**", "/js/**", "/images/**", "/test-email", "/email-config").permitAll()
-                // Admin pages - cần đăng nhập với role ADMIN
                 .requestMatchers("/admin/**").hasRole("ADMIN")
-                // Tất cả requests khác cần authentication
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form

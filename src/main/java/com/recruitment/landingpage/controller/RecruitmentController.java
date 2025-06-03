@@ -31,11 +31,9 @@ public class RecruitmentController {
     @Autowired
     private EmailService emailService;
     
-    // Cấu hình từ application.properties
     @Value("${app.upload.dir:uploads/}")
     private String uploadDir;
     
-    // Tùy chọn lưu trữ: DATABASE hoặc FILE
     @Value("${app.storage.type:DATABASE}")
     private String storageType;
     
@@ -79,20 +77,18 @@ public class RecruitmentController {
             CandidateEntity candidateEntity;
             
             if ("DATABASE".equals(storageType)) {
-                // Option 1: Lưu file vào database
                 candidateEntity = new CandidateEntity(
                     candidate.getFullName(),
                     candidate.getPhoneNumber(), 
                     candidate.getAddress(),
                     candidate.getAvailableStartTime(),
-                    file.getBytes(),  // Lưu file data vào database
+                    file.getBytes(),  
                     file.getContentType(),
                     file.getOriginalFilename()
                 );
                 System.out.println("CV saved to DATABASE");
                 
             } else {
-                // Option 2: Lưu file vào thư mục
                 Path uploadPath = Paths.get(uploadDir);
                 if (!Files.exists(uploadPath)) {
                     Files.createDirectories(uploadPath);
@@ -117,17 +113,15 @@ public class RecruitmentController {
                 );
                 System.out.println("CV saved to FILE: " + uploadPath.resolve(uniqueFilename));
             }
-              candidate.setCvFile(file);
+            candidate.setCvFile(file);
             candidateRepository.save(candidateEntity);
             
             System.out.println("New application saved to database: " + candidateEntity.getId());
             
-            // Gửi email thông báo cho admin
             try {
                 emailService.sendNewCandidateNotification(candidateEntity);
             } catch (Exception e) {
                 System.err.println("Failed to send email notification: " + e.getMessage());
-                // Không dừng quá trình xử lý chính nếu gửi email thất bại
             }
             
             redirectAttributes.addFlashAttribute("successMessage", 

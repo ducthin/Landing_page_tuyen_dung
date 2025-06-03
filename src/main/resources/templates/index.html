@@ -3,27 +3,171 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tuyển Dụng - Nộp Hồ Sơ Ứng Tuyển</title>
+    <meta name="description" content="WELL CENTER ....">
+    <meta name="keywords" content="tuyển dụng, well center, chăm sóc sức khỏe, việc làm, career, recruitment">
+    <meta name="author" content="WELL CENTER">
+    <title>WELL CENTER - Tuyển Dụng | Nơi Khởi Nguồn Sự Nghiệp Của Bạn</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">    <style>
-        body {
-            background-color: #f5f5f5;
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"><style>        body {
+            background: #ffffff;
             min-height: 100vh;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }.hero-banner {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            color: #334155;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+            min-height: 600px;
+            display: flex;
+            align-items: center;
         }
         
+        .hero-split {
+            display: flex;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            align-items: center;
+            gap: 4rem;
+            padding: 2rem;
+        }
+        
+        .hero-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .hero-image img {
+            width: 100%;
+            max-width: 400px;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            transform: rotate(-5deg);
+            transition: transform 0.3s ease;
+        }
+        
+        .hero-image img:hover {
+            transform: rotate(0deg) scale(1.05);
+        }
+        
+        .hero-text {
+            flex: 1;
+            text-align: left;
+            padding: 2rem 0;
+        }        .hero-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255,255,255,0.3);
+            z-index: 1;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+        }
+        
+        .company-logo {
+            width: 120px;
+            height: 120px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            margin: 0 auto 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: bold;
+            backdrop-filter: blur(10px);
+        }
+          .hero-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #1e293b;
+            text-shadow: none;
+        }
+          .hero-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            color: #475569;
+            line-height: 1.6;
+        }
+        
+        .hero-description {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            color: #64748b;
+            line-height: 1.8;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .cta-section {
+            margin-top: 2rem;
+        }
+          .cta-button {
+            background: #3b82f6;
+            border: 2px solid #3b82f6;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(59, 130, 246, 0.3);
+        }
+        
+        .cta-button:hover {
+            background: #2563eb;
+            border-color: #2563eb;
+            color: white;
+            text-decoration: none;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(59, 130, 246, 0.4);
+        }
         .container {
+            padding: 0;
+        }
+        
+        .main-content {
             padding: 2rem 0;
         }
         
         .form-container {
             background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
             padding: 3rem;
             margin: 2rem auto;
             max-width: 600px;
-            border: 1px solid #e0e0e0;
+            border: none;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .form-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #FFA726 0%, #FF7043 50%, #E91E63 100%);
         }
         
         .header-section {
@@ -35,11 +179,13 @@
             color: #333;
             font-weight: 600;
             margin-bottom: 0.5rem;
+            font-size: 2rem;
         }
         
         .header-section p {
             color: #666;
             font-size: 1.1rem;
+            margin-bottom: 0;
         }
         
         .form-group {
@@ -66,27 +212,27 @@
             font-size: 1rem;
             transition: border-color 0.3s ease;
         }
-        
-        .form-control:focus {
-            border-color: #007bff;
-            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+          .form-control:focus {
+            border-color: #FFA726;
+            box-shadow: 0 0 0 0.2rem rgba(255, 167, 38, 0.25);
         }
-        
-        .btn-submit {
-            background-color: #007bff;
+          .btn-submit {
+            background: linear-gradient(135deg, #FFA726 0%, #FF7043 100%);
             border: none;
-            border-radius: 4px;
+            border-radius: 25px;
             padding: 1rem 2rem;
             font-size: 1.1rem;
             font-weight: 600;
             color: white;
             width: 100%;
-            transition: background-color 0.3s ease;
+            transition: all 0.3s ease;
             margin-top: 1rem;
+            box-shadow: 0 4px 15px rgba(255, 167, 38, 0.3);
         }
         
         .btn-submit:hover {
-            background-color: #0056b3;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 167, 38, 0.4);
         }
         
         .error-message {
@@ -117,10 +263,9 @@
             transition: all 0.3s ease;
             display: block;
         }
-        
-        .file-upload-label:hover {
-            border-color: #007bff;
-            background: #e3f2fd;
+          .file-upload-label:hover {
+            border-color: #FFA726;
+            background: #fff3e0;
         }
         
         .file-upload-text {
@@ -221,9 +366,36 @@
         
         .btn-map i {
             margin-right: 0.5rem;
-        }
-        
-        @media (max-width: 768px) {
+        }        @media (max-width: 768px) {
+            .hero-banner {
+                min-height: auto;
+                padding: 2rem 0;
+            }
+            
+            .hero-split {
+                flex-direction: column;
+                gap: 2rem;
+                padding: 1rem;
+            }
+            
+            .hero-image img {
+                max-width: 300px;
+                height: 300px;
+                transform: rotate(0deg);
+            }
+            
+            .hero-text {
+                text-align: center;
+            }
+            
+            .hero-title {
+                font-size: 2.2rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+            
             .form-container {
                 margin: 1rem;
                 padding: 2rem 1.5rem;
@@ -236,14 +408,36 @@
         }
     </style>
 </head>
-<body>
-    <div class="container">
-        <div class="form-container">
-            <div class="header-section">
-                <h1><i class="fas fa-briefcase"></i> Ứng Tuyển Vị Trí</h1>
-                <p>Điền thông tin của bạn để ứng tuyển vào công ty chúng tôi</p>
+<body>    <!-- Hero Banner Section -->    
+    <div class="hero-banner">
+        <div class="hero-content">
+            <div class="hero-split">
+                <div class="hero-image">
+                    <img src="/images/banner.jpg" alt="WELL CENTER">
+                </div>
+                <div class="hero-text">
+                    <h1 class="hero-title">WELL CENTER</h1>
+                    <p class="hero-subtitle">Nơi Khởi Nguồn Sự Nghiệp Của Bạn</p>
+                    <p class="hero-description">
+                        lời mở đầu.
+                    </p>
+                    <div class="cta-section">
+                        <a href="#application-form" class="cta-button">
+                            <i class="fas fa-rocket"></i> Bắt Đầu Ứng Tuyển
+                        </a>
+                    </div>
+                </div>
             </div>
-            
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="main-content">            
+            <div class="form-container" id="application-form">
+                <div class="header-section">
+                    <h1><i class="fas fa-briefcase"></i> Đơn Ứng Tuyển</h1>
+                    <p>Điền thông tin chi tiết để chúng tôi hiểu rõ hơn về bạn</p>
+                </div>
             <!-- Error Messages -->
             <div th:if="${errorMessage}" class="alert alert-danger">
                 <i class="fas fa-exclamation-circle"></i>
@@ -319,7 +513,8 @@
                                id="cvFile" 
                                name="cvFile" 
                                accept=".pdf,.doc,.docx"
-                               onchange="updateFileName(this)">                        <label for="cvFile" class="file-upload-label">
+                               onchange="updateFileName(this)">                        
+                               <label for="cvFile" class="file-upload-label">
                             <i class="fas fa-cloud-upload-alt fa-2x" style="color: #6c757d; margin-bottom: 1rem;"></i>
                             <div class="file-upload-text">
                                 <strong>Chọn file CV</strong><br>
@@ -344,29 +539,27 @@
             <div class="map-header">
                 <h3><i class="fas fa-map-marker-alt"></i> Vị Trí Công Ty</h3>
                 <p>Nhấp vào bản đồ để xem đường đi chi tiết</p>
-            </div>            <div class="map-container">
-                <!-- Google Maps Embed cho FPT Tower -->
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1195.560994707617!2d108.22215583896383!3d16.076786575211347!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3142183c630e8161%3A0x9656b8df7b3bcbc8!2zU-G7nyBOZ2_huqFpIHbhu6UgxJDDoCBO4bq1bmc!5e1!3m2!1svi!2s!4v1748870688006!5m2!1svi!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-            </div><div class="company-info">
-                <!-- VÍ DỤ: Thông tin công ty mẫu -->
+            </div>            
+            <div class="map-container">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d432.03829378400434!2d106.64649399065732!3d10.847398593053455!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752990b2654e15%3A0x676c6c51bd8c1d9f!2zMTU0IMSQLiBQaOG6oW0gVsSDbiBDaGnDqnUsIFBoxrDhu51uZyA4LCBHw7IgVuG6pXAsIEjhu5MgQ2jDrSBNaW5oLCBWaeG7h3QgTmFt!5e1!3m2!1svi!2s!4v1748936355441!5m2!1svi!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>            </div>
+            <div class="company-info">
                 <div class="address">
                     <i class="fas fa-building"></i>
-                    Công Ty Cổ Phần AAA
+                    WELL CENTER
                 </div>
                 <div class="contact">
-                    <i class="fas fa-map-marker-alt"></i> Tòa nhà AA, 17 AA, AA, Việt Nam<br>
-                    <i class="fas fa-phone"></i> 000.000.000 | 
-                    <i class="fas fa-envelope"></i> ABC@gmail.com.vn
+                    <i class="fas fa-map-marker-alt"></i> Tòa nhà WELL CENTER, Thành phố Hồ Chí Minh, Việt Nam<br>
+                    <i class="fas fa-phone"></i> (+84) 0346.907.431 | 
+                    <i class="fas fa-envelope"></i> tuyendungwellcenter@gmail.com
                 </div>
                 
                 <div class="map-actions">
-                    <!-- Tọa độ của FPT Tower làm ví dụ -->
-                    <a href="https://www.google.com/maps/dir//16.076742760907923, 108.22299939369147" 
+                    <a href="https://www.google.com/maps/dir//10.847343642827163, 106.64666800445447" 
                        target="_blank" 
                        class="btn-map">
                         <i class="fas fa-route"></i>Chỉ đường
                     </a>
-                    <a href="https://www.google.com/maps/place/16.076742760907923, 108.22299939369147" 
+                    <a href="https://www.google.com/maps/place/10.847343642827163, 106.64666800445447" 
                        target="_blank" 
                        class="btn-map">
                         <i class="fas fa-external-link-alt"></i>Mở Google Maps
@@ -374,10 +567,27 @@
                 </div>
             </div>
         </div>
+        </div>
     </div>
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+        // Smooth scroll to application form
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctaButton = document.querySelector('.cta-button');
+            if (ctaButton) {
+                ctaButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const target = document.querySelector('#application-form');
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            }
+        });
+        
         function updateFileName(input) {
             const fileNameDiv = document.getElementById('fileName');
             const fileUploadText = document.querySelector('.file-upload-text');

@@ -2,8 +2,16 @@ package com.recruitment.landingpage.model;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.ToString;
 import org.springframework.web.multipart.MultipartFile;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString(exclude = "cvFile") // Exclude cvFile from toString to avoid large output
 public class Candidate {
     
     @NotBlank(message = "Họ và tên không được để trống")
@@ -17,69 +25,13 @@ public class Candidate {
     private String address;
     
     @NotBlank(message = "Thời gian có thể nhận việc không được để trống")
-    private String availableStartTime;
+    private String availableStartTime;    private MultipartFile cvFile;
     
-    private MultipartFile cvFile;
-    
-    // Constructors
-    public Candidate() {}
-    
+    // Custom constructor without cvFile (for forms without file upload)
     public Candidate(String fullName, String phoneNumber, String address, String availableStartTime) {
         this.fullName = fullName;
         this.phoneNumber = phoneNumber;
         this.address = address;
         this.availableStartTime = availableStartTime;
-    }
-    
-    // Getters and Setters
-    public String getFullName() {
-        return fullName;
-    }
-    
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-    
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-    
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-    
-    public String getAddress() {
-        return address;
-    }
-    
-    public void setAddress(String address) {
-        this.address = address;
-    }
-    
-    public String getAvailableStartTime() {
-        return availableStartTime;
-    }
-    
-    public void setAvailableStartTime(String availableStartTime) {
-        this.availableStartTime = availableStartTime;
-    }
-    
-    public MultipartFile getCvFile() {
-        return cvFile;
-    }
-    
-    public void setCvFile(MultipartFile cvFile) {
-        this.cvFile = cvFile;
-    }
-    
-    @Override
-    public String toString() {
-        return "Candidate{" +
-                "fullName='" + fullName + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", address='" + address + '\'' +
-                ", availableStartTime='" + availableStartTime + '\'' +
-                ", cvFile=" + (cvFile != null ? cvFile.getOriginalFilename() : "null") +
-                '}';
     }
 }
