@@ -19,10 +19,10 @@ public class DataLoader implements ApplicationRunner {
     private PasswordEncoder passwordEncoder;
 
     @Value("${app.admin.username:admintuyendung}")
-    private String adminUsername;
+    private String adminUsername;    @Value("${app.admin.password:Wellcenter}")
+    private String adminPassword;
 
-    @Value("${app.admin.password:Wellcenter}")
-    private String adminPassword;    @Override
+    @Override
     public void run(ApplicationArguments args) throws Exception {
         // Bước 1: Xóa TẤT CẢ các user admin cũ để đảm bảo bảo mật
         userRepository.deleteByRole("ADMIN");
