@@ -1,3 +1,23 @@
+#!/bin/bash
+
+# Script khôi phục cấu hình SSL đầy đủ
+echo "🔐 Khôi phục cấu hình SSL đầy đủ cho tuyendungwellcenter.com"
+
+# Kiểm tra certificate đã tồn tại chưa
+if [ ! -f "/etc/letsencrypt/live/tuyendungwellcenter.com/fullchain.pem" ]; then
+    echo "❌ SSL certificate chưa được tạo!"
+    echo "   Chạy script setup-ssl.sh trước"
+    exit 1
+fi
+
+# Khôi phục nginx config với SSL
+if [ -f "nginx.conf.backup" ]; then
+    cp nginx.conf.backup nginx.conf
+    echo "✅ Khôi phục nginx config với SSL"
+else
+    echo "⚠️  Không tìm thấy backup, tạo config SSL mới..."
+    # Tạo config SSL đầy đủ
+    cat > nginx.conf << 'EOF'
 events {
     worker_connections 1024;
 }
@@ -5,7 +25,9 @@ events {
 http {
     upstream app_backend {
         server app:8080;
-    }    # Redirect HTTP to HTTPS
+    }
+
+    # Redirect HTTP to HTTPS
     server {
         listen 80;
         server_name tuyendungwellcenter.com www.tuyendungwellcenter.com;
@@ -15,7 +37,9 @@ http {
     # HTTPS server
     server {
         listen 443 ssl http2;
-        server_name tuyendungwellcenter.com www.tuyendungwellcenter.com;        # SSL Configuration - Let's Encrypt
+        server_name tuyendungwellcenter.com www.tuyendungwellcenter.com;
+
+        # SSL Configuration - Let's Encrypt
         ssl_certificate /etc/letsencrypt/live/tuyendungwellcenter.com/fullchain.pem;
         ssl_certificate_key /etc/letsencrypt/live/tuyendungwellcenter.com/privkey.pem;
         ssl_protocols TLSv1.2 TLSv1.3;
@@ -50,3 +74,12 @@ http {
         client_max_body_size 5M;
     }
 }
+EOF
+fi
+
+# Restart services
+echo "🚀 Khởi động lại services với SSL..."
+docker-compose down
+docker-compose up -d
+
+echo "✅ Hoàn tất! Website có SSL tại: https://tuyendungwellcenter.com"

@@ -41,12 +41,12 @@ services:
     container_name: recruitment_nginx
     restart: always
     depends_on:
-      - app
-    ports:
+      - app    ports:
       - "80:80"
       - "443:443"
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
+      - /etc/letsencrypt:/etc/letsencrypt:ro
       - ./ssl:/etc/nginx/ssl
     networks:
       - recruitment_network
