@@ -1,5 +1,7 @@
 package com.recruitment.landingpage.config;
 
+import com.recruitment.landingpage.service.CustomUserDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -11,17 +13,20 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+    @Autowired
+    private CustomUserDetailsService userDetailsService;
     
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-    
-    @Bean
+      @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+            .userDetailsService(userDetailsService)
             .authorizeHttpRequests(authz -> authz               
-                .requestMatchers("/", "/submit", "/success", "/css/**", "/js/**", "/images/**", "/test-email", "/email-config").permitAll()
+                .requestMatchers("/", "/submit", "/success", "/css/**", "/js/**", "/images/**", "/test-email", "/email-config", "/actuator/health").permitAll()
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
             )
