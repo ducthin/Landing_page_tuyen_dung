@@ -35,7 +35,6 @@ services:
     networks:
       - recruitment_network
     restart: unless-stopped
-
   nginx:
     image: nginx:alpine
     container_name: recruitment_nginx
@@ -44,6 +43,7 @@ services:
       - "443:443"
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - /etc/letsencrypt:/etc/letsencrypt:ro
     depends_on:
       - app
     networks:
