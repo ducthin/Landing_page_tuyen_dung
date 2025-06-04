@@ -32,7 +32,8 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - app_logs:/var/log/recruitment    networks:
+      - app_logs:/var/log/recruitment
+    networks:
       - recruitment_network
 
   nginx:
