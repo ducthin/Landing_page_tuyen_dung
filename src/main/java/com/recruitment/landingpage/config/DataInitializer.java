@@ -21,8 +21,8 @@ public class DataInitializer implements CommandLineRunner {
         // Tạo admin user mặc định nếu chưa có
         if (userRepository.findByUsername("admin").isEmpty()) {
             User admin = new User();
-            admin.setUsername("admin");
-            admin.setPassword(passwordEncoder.encode("admin123"));
+            admin.setUsername("admintuyendung");
+            admin.setPassword(passwordEncoder.encode("Wellcenter"));
             admin.setRole("ADMIN");
             admin.setEnabled(true);
             userRepository.save(admin);
