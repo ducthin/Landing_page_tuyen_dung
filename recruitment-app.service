@@ -1,0 +1,28 @@
+[Unit]
+Description=Recruitment Landing Page Application
+After=network.target mysql.service
+
+[Service]
+Type=simple
+User=recruitment
+WorkingDirectory=/opt/recruitment
+ExecStart=/usr/bin/java -jar \
+    -Dspring.profiles.active=prod \
+    -Xms512m \
+    -Xmx1024m \
+    -Dserver.port=8080 \
+    /opt/recruitment/landing-page-0.0.1-SNAPSHOT.jar
+ExecStop=/bin/kill -15 $MAINPID
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=recruitment-app
+
+# Environment variables
+Environment=DB_USERNAME=recruitment_user
+Environment=DB_PASSWORD=your_strong_password
+Environment=SERVER_PORT=8080
+
+[Install]
+WantedBy=multi-user.target

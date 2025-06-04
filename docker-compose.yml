@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: recruitment_mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: your_strong_root_password
+      MYSQL_DATABASE: recruitment_db
+      MYSQL_USER: recruitment_user
+      MYSQL_PASSWORD: your_strong_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./mysql-init:/docker-entrypoint-initdb.d
+    networks:
+      - recruitment_network
+
+  app:
+    build: .
+    container_name: recruitment_app
+    restart: always
+    depends_on:
+      - mysql
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - DB_USERNAME=recruitment_user
+      - DB_PASSWORD=your_strong_password
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/recruitment_db?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=Asia/Ho_Chi_Minh&allowPublicKeyRetrieval=true
+    ports:
+      - "8080:8080"
+    volumes:
+      - app_logs:/var/log/recruitment
+    networks:
+      - recruitment_network
+
+  nginx:
+    image: nginx:alpine
+    container_name: recruitment_nginx
+    restart: always
+    depends_on:
+      - app
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./ssl:/etc/nginx/ssl
+    networks:
+      - recruitment_network
+
+volumes:
+  mysql_data:
+  app_logs:
+
+networks:
+  recruitment_network:
+    driver: bridge
