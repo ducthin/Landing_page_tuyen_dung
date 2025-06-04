@@ -29,3 +29,5 @@ docker-compose ps
 Write-Host "✅ Deploy hoàn thành!" -ForegroundColor Green
 Write-Host "🌐 Ứng dụng đang chạy tại: http://localhost" -ForegroundColor Cyan
 Write-Host "📊 Health check: http://localhost/actuator/health" -ForegroundColor Cyan
+Write-Host "🔐 Đăng nhập admin: admintuyendung / Wellcenter" -ForegroundColor Magenta
+Write-Host "⚠️  Lưu ý: Tất cả tài khoản admin cũ đã bị xóa để đảm bảo bảo mật" -ForegroundColor Yellow

@@ -31,3 +31,5 @@ docker-compose ps
 echo "✅ Deploy hoàn thành!"
 echo "🌐 Ứng dụng đang chạy tại: http://localhost"
 echo "📊 Health check: http://localhost/actuator/health"
+echo "🔐 Đăng nhập admin: admintuyendung / Wellcenter"
+echo "⚠️  Lưu ý: Tất cả tài khoản admin cũ đã bị xóa để đảm bảo bảo mật"
