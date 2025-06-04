@@ -34,8 +34,8 @@ COPY --from=builder /app/target/landing-page-*.jar app.jar
 # Install curl for health check
 RUN apk add --no-cache curl
 
-# Create logs directory
-RUN mkdir -p /var/log/recruitment && chown spring:spring /var/log/recruitment
+# Set working directory
+WORKDIR /app
 
 # Change to non-root user
 USER spring
