@@ -32,8 +32,7 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - app_logs:/var/log/recruitment
-    networks:
+      - app_logs:/var/log/recruitment    networks:
       - recruitment_network
 
   nginx:
@@ -41,7 +40,8 @@ services:
     container_name: recruitment_nginx
     restart: always
     depends_on:
-      - app    ports:
+      - app
+    ports:
       - "80:80"
       - "443:443"
     volumes:
