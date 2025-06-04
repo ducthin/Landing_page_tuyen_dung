@@ -32,3 +32,32 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Environment variables
+.env
+
+# Uploads
+uploads/
+
+# SSL certificates
+*.pem
+*.crt
+*.key
+
+# Backup files
+*.bak
+*.backup
+
+# Temporary files
+*.tmp
+*.temp
+/tmp/
+
+# Logs
+logs/
+*.log
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
