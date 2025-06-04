@@ -4,57 +4,54 @@ services:
   mysql:
     image: mysql:8.0
     container_name: recruitment_mysql
-    restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: your_strong_root_password
+      MYSQL_ROOT_PASSWORD: WellCenter2024!
       MYSQL_DATABASE: recruitment_db
       MYSQL_USER: recruitment_user
-      MYSQL_PASSWORD: your_strong_password
-    ports:
-      - "3306:3306"
+      MYSQL_PASSWORD: WellCenter2024!
     volumes:
       - mysql_data:/var/lib/mysql
-      - ./mysql-init:/docker-entrypoint-initdb.d
     networks:
       - recruitment_network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pWellCenter2024!"]
+      timeout: 20s
+      retries: 15
+      interval: 10s
+      start_period: 30s
 
   app:
     build: .
     container_name: recruitment_app
-    restart: always
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
     environment:
-      - SPRING_PROFILES_ACTIVE=prod
-      - DB_USERNAME=recruitment_user
-      - DB_PASSWORD=your_strong_password
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/recruitment_db?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=Asia/Ho_Chi_Minh&allowPublicKeyRetrieval=true
-    ports:
-      - "8080:8080"
-    volumes:
-      - app_logs:/var/log/recruitment
+      SPRING_PROFILES_ACTIVE: prod
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/recruitment_db
+      SPRING_DATASOURCE_USERNAME: recruitment_user
+      SPRING_DATASOURCE_PASSWORD: WellCenter2024!
     networks:
       - recruitment_network
+    restart: unless-stopped
 
   nginx:
     image: nginx:alpine
     container_name: recruitment_nginx
-    restart: always
-    depends_on:
-      - app
     ports:
       - "80:80"
       - "443:443"
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
-      - /etc/letsencrypt:/etc/letsencrypt:ro
-      - ./ssl:/etc/nginx/ssl
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
     networks:
       - recruitment_network
+    restart: unless-stopped
 
 volumes:
   mysql_data:
-  app_logs:
 
 networks:
   recruitment_network:
