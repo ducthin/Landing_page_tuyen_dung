@@ -25,7 +25,8 @@ public class Candidate {
     private String address;
     
     @NotBlank(message = "Thời gian có thể nhận việc không được để trống")
-    private String availableStartTime;    private MultipartFile cvFile;
+    private String availableStartTime;    
+    private MultipartFile cvFile;
     
     // Custom constructor without cvFile (for forms without file upload)
     public Candidate(String fullName, String phoneNumber, String address, String availableStartTime) {

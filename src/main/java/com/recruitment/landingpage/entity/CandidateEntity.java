@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import lombok.ToString;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 @Entity
 @Table(name = "candidates")
@@ -66,17 +68,16 @@ public class CandidateEntity {
         this.fullName = fullName;
         this.phoneNumber = phoneNumber;
         this.address = address;
-        this.availableStartTime = availableStartTime;
+        this.availableStartTime = availableStartTime;        
         this.cvFilename = cvFilename;
         this.cvOriginalFilename = cvOriginalFilename;
-        this.createdAt = LocalDateTime.now();
+        this.createdAt = ZonedDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")).toLocalDateTime();
     }
     
     // JPA lifecycle method để tự động set createdAt
-    @PrePersist
-    protected void onCreate() {
+    @PrePersist    protected void onCreate() {
         if (createdAt == null) {
-            createdAt = LocalDateTime.now();
+            createdAt = ZonedDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")).toLocalDateTime();
         }
     }
 }
