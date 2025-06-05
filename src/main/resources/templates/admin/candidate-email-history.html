@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lịch sử Email - WELL CENTER Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .email-history-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .email-item {
+            border-left: 4px solid #007bff;
+            transition: all 0.3s ease;
+        }
+        .email-item:hover {
+            border-left-color: #ffc107;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .email-content {
+            max-height: 150px;
+            overflow: hidden;
+            position: relative;
+        }
+        .email-content.expanded {
+            max-height: none;
+        }
+        .email-content::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 30px;
+            background: linear-gradient(transparent, white);
+        }
+        .email-content.expanded::after {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-2 bg-dark text-white min-vh-100">
+                <div class="p-3">
+                    <h5><i class="fas fa-user-shield"></i> Admin Panel</h5>
+                    <hr>
+                    <ul class="nav nav-pills flex-column">
+                        <li class="nav-item">
+                            <a href="/admin/dashboard" class="nav-link text-white">
+                                <i class="fas fa-home"></i> Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/admin/email/compose" class="nav-link text-white">
+                                <i class="fas fa-envelope"></i> Soạn Email
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/admin/email/history" class="nav-link active">
+                                <i class="fas fa-history"></i> Lịch sử Email
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/logout" class="nav-link text-white">
+                                <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-md-10">
+                <div class="container-fluid p-4">
+                    <div class="email-history-container">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h2><i class="fas fa-user"></i> Lịch sử Email với <span th:text="${candidate.fullName}"></span></h2>
+                            <div>
+                                <a th:href="@{/admin/email/compose(candidateId=${candidate.id})}" class="btn btn-primary">
+                                    <i class="fas fa-plus"></i> Gửi Email mới
+                                </a>
+                                <a th:href="@{/admin/candidate/{id}(id=${candidate.id})}" class="btn btn-secondary">
+                                    <i class="fas fa-arrow-left"></i> Quay lại
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Candidate Info -->
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h5><i class="fas fa-user"></i> Thông tin ứng viên</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <strong>Họ tên:</strong> <span th:text="${candidate.fullName}"></span><br>
+                                        <strong>Điện thoại:</strong> <span th:text="${candidate.phoneNumber}"></span><br>
+                                        <strong>Email:</strong> <span th:text="${candidate.email != null ? candidate.email : 'Chưa có email'}"></span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>Địa chỉ:</strong> <span th:text="${candidate.address}"></span><br>
+                                        <strong>Ngày nộp:</strong> <span th:text="${#temporals.format(candidate.createdAt, 'dd/MM/yyyy HH:mm')}"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Email List -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div th:if="${#lists.isEmpty(emails)}" class="text-center py-5">
+                                    <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                                    <h5 class="text-muted">Chưa có email nào được gửi cho ứng viên này</h5>
+                                    <a th:href="@{/admin/email/compose(candidateId=${candidate.id})}" class="btn btn-primary">
+                                        <i class="fas fa-envelope"></i> Gửi Email đầu tiên
+                                    </a>
+                                </div>
+
+                                <div th:each="email : ${emails}" class="card email-item mb-3">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <h6 class="mb-0" th:text="${email.subject}">Tiêu đề email</h6>
+                                            <small class="text-muted">
+                                                Gửi đến: <strong th:text="${email.toEmail}">email@example.com</strong>
+                                            </small>
+                                        </div>
+                                        <div class="text-end">
+                                            <span th:if="${email.success}" class="badge bg-success">
+                                                <i class="fas fa-check"></i> Đã gửi
+                                            </span>
+                                            <span th:unless="${email.success}" class="badge bg-danger">
+                                                <i class="fas fa-times"></i> Thất bại
+                                            </span>
+                                            <br>
+                                            <small class="text-muted" th:text="${#temporals.format(email.sentAt, 'dd/MM/yyyy HH:mm')}">01/01/2024 10:00</small>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="email-content" th:id="'content-' + ${email.id}">
+                                            <div th:if="${email.isHtml}" th:utext="${email.content}">Nội dung email HTML</div>
+                                            <div th:unless="${email.isHtml}" th:text="${email.content}" style="white-space: pre-wrap;">Nội dung email text</div>
+                                        </div>
+                                        <button class="btn btn-sm btn-outline-primary mt-2" th:onclick="'toggleContent(' + ${email.id} + ')'">
+                                            <i class="fas fa-expand-alt"></i> Xem đầy đủ
+                                        </button>
+                                        
+                                        <!-- Error Message (if failed) -->
+                                        <div th:if="${!email.success and email.errorMessage}" class="alert alert-danger mt-3">
+                                            <small>
+                                                <strong>Lỗi:</strong> <span th:text="${email.errorMessage}">Chi tiết lỗi</span>
+                                            </small>
+                                        </div>
+                                        
+                                        <!-- Metadata -->
+                                        <div class="mt-3">
+                                            <small class="text-muted">
+                                                <i class="fas fa-user"></i> Gửi bởi: <span th:text="${email.sentBy}">admin</span>
+                                                <span th:if="${email.cc}"> | <i class="fas fa-copy"></i> CC: <span th:text="${email.cc}"></span></span>
+                                                <span th:if="${email.bcc}"> | <i class="fas fa-eye-slash"></i> BCC: <span th:text="${email.bcc}"></span></span>
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function toggleContent(emailId) {
+            const content = document.getElementById('content-' + emailId);
+            const button = content.nextElementSibling;
+            
+            if (content.classList.contains('expanded')) {
+                content.classList.remove('expanded');
+                button.innerHTML = '<i class="fas fa-expand-alt"></i> Xem đầy đủ';
+            } else {
+                content.classList.add('expanded');
+                button.innerHTML = '<i class="fas fa-compress-alt"></i> Thu gọn';
+            }
+        }
+    </script>
+</body>
+</html>

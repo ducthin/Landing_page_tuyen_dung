@@ -16,10 +16,12 @@ public class Candidate {
     
     @NotBlank(message = "Họ và tên không được để trống")
     private String fullName;
-    
-    @NotBlank(message = "Số điện thoại không được để trống")
+      @NotBlank(message = "Số điện thoại không được để trống")
     @Pattern(regexp = "^(\\+84|0)[3-9][0-9]{8}$", message = "Số điện thoại không hợp lệ")
     private String phoneNumber;
+    
+    @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$", message = "Email không hợp lệ")
+    private String email;
     
     @NotBlank(message = "Địa chỉ không được để trống")
     private String address;

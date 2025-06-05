@@ -119,12 +119,20 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-body p-0">
-                        <div class="info-item">
+                    <div class="card-body p-0">                        <div class="info-item">
                             <div class="info-label">
                                 <i class="fas fa-phone text-primary me-2"></i>Số điện thoại
                             </div>
                             <div class="info-value" th:text="${candidate.phoneNumber}">0123456789</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">
+                                <i class="fas fa-envelope text-primary me-2"></i>Email
+                            </div>
+                            <div class="info-value">
+                                <span th:if="${candidate.email != null and !#strings.isEmpty(candidate.email)}" th:text="${candidate.email}">email@example.com</span>
+                                <span th:unless="${candidate.email != null and !#strings.isEmpty(candidate.email)}" class="text-muted fst-italic">Chưa cung cấp email</span>
+                            </div>
                         </div>
                         <div class="info-item">
                             <div class="info-label">
@@ -196,9 +204,15 @@
                                 <a th:href="@{/admin/download-cv/{id}(id=${candidate.id})}" 
                                    class="btn btn-primary">
                                     <i class="fas fa-download me-2"></i>Tải CV
+                                </a>                            </div>
+                            <!-- Nút gửi email -->
+                            <div th:if="${candidate.email != null and !#strings.isEmpty(candidate.email)}" class="mb-3">
+                                <a th:href="@{/admin/email/compose(candidateId=${candidate.id})}" 
+                                   class="btn btn-warning">
+                                    <i class="fas fa-envelope me-2"></i>Gửi Email
                                 </a>
-                            </div>                         
-                            <button class="btn btn-outline-danger" 
+                            </div>
+                            <button class="btn btn-outline-danger"
                                     th:data-candidate-id="${candidate.id}"
                                     th:data-candidate-name="${candidate.fullName}"
                                     onclick="confirmDelete(this.dataset.candidateId, this.dataset.candidateName)">

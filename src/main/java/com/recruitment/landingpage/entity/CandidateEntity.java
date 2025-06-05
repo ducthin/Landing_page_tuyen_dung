@@ -23,9 +23,11 @@ public class CandidateEntity {
     
     @Column(nullable = false)
     private String fullName;
-    
-    @Column(nullable = false)
+      @Column(nullable = false)
     private String phoneNumber;
+    
+    @Column(nullable = true) // Email có thể để trống cho ứng viên cũ
+    private String email;
     
     @Column(nullable = false, length = 1000)
     private String address;
@@ -48,26 +50,28 @@ public class CandidateEntity {
     @Column(name = "cv_filename")
     private String cvFilename;    @Column(nullable = false)
     private LocalDateTime createdAt;
-    
-    // Custom constructor for database storage (with binary data)
-    public CandidateEntity(String fullName, String phoneNumber, String address, 
+      // Custom constructor for database storage (with binary data)
+    public CandidateEntity(String fullName, String phoneNumber, String email, String address, 
                           String availableStartTime, byte[] cvData, String cvContentType, String cvOriginalFilename) {
         this.fullName = fullName;
         this.phoneNumber = phoneNumber;
+        this.email = email;
         this.address = address;
-        this.availableStartTime = availableStartTime;        this.cvData = cvData;
+        this.availableStartTime = availableStartTime;
+        this.cvData = cvData;
         this.cvContentType = cvContentType;
         this.cvOriginalFilename = cvOriginalFilename;
         this.createdAt = ZonedDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")).toLocalDateTime();
     }
     
     // Custom constructor for file storage (backward compatibility)
-    public CandidateEntity(String fullName, String phoneNumber, String address, 
+    public CandidateEntity(String fullName, String phoneNumber, String email, String address, 
                           String availableStartTime, String cvFilename, String cvOriginalFilename) {
         this.fullName = fullName;
         this.phoneNumber = phoneNumber;
+        this.email = email;
         this.address = address;
-        this.availableStartTime = availableStartTime;        
+        this.availableStartTime = availableStartTime;
         this.cvFilename = cvFilename;
         this.cvOriginalFilename = cvOriginalFilename;
         this.createdAt = ZonedDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")).toLocalDateTime();

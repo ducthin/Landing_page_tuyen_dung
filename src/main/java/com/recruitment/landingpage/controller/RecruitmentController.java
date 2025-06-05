@@ -76,12 +76,12 @@ public class RecruitmentController {
         }
         
         try {
-            CandidateEntity candidateEntity;
-              if ("DATABASE".equals(storageType)) {
+            CandidateEntity candidateEntity;            if ("DATABASE".equals(storageType)) {
                 // Lưu CV vào database
                 candidateEntity = new CandidateEntity(
                     candidate.getFullName(),
-                    candidate.getPhoneNumber(), 
+                    candidate.getPhoneNumber(),
+                    candidate.getEmail(),
                     candidate.getAddress(),
                     candidate.getAvailableStartTime(),
                     file.getBytes(),  
@@ -104,10 +104,10 @@ public class RecruitmentController {
                 String uniqueFilename = UUID.randomUUID().toString() + fileExtension;
                 Path filePath = uploadPath.resolve(uniqueFilename);
                 Files.copy(file.getInputStream(), filePath);
-                
-                candidateEntity = new CandidateEntity(
+                  candidateEntity = new CandidateEntity(
                     candidate.getFullName(),
-                    candidate.getPhoneNumber(), 
+                    candidate.getPhoneNumber(),
+                    candidate.getEmail(),
                     candidate.getAddress(),
                     candidate.getAvailableStartTime(),
                     uniqueFilename,

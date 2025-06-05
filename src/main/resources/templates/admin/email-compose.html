@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soạn Email - WELL CENTER Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Quill Rich Text Editor -->
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <style>
+        .email-compose-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }        .quill-editor {
+            height: 300px;
+            border: 1px solid #ced4da;
+            border-radius: 0.375rem;
+        }
+        .ql-editor {
+            min-height: 250px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        .ql-toolbar {
+            border-top: 1px solid #ced4da;
+            border-left: 1px solid #ced4da;
+            border-right: 1px solid #ced4da;
+            border-top-left-radius: 0.375rem;
+            border-top-right-radius: 0.375rem;
+        }
+        .ql-container {
+            border-bottom: 1px solid #ced4da;
+            border-left: 1px solid #ced4da;
+            border-right: 1px solid #ced4da;
+            border-bottom-left-radius: 0.375rem;
+            border-bottom-right-radius: 0.375rem;
+        }
+        .template-buttons {
+            margin-bottom: 20px;
+        }
+        .template-buttons .btn {
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-2 bg-dark text-white min-vh-100">
+                <div class="p-3">
+                    <h5><i class="fas fa-user-shield"></i> Admin Panel</h5>
+                    <hr>
+                    <ul class="nav nav-pills flex-column">
+                        <li class="nav-item">
+                            <a href="/admin/dashboard" class="nav-link text-white">
+                                <i class="fas fa-home"></i> Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/admin/email/compose" class="nav-link active">
+                                <i class="fas fa-envelope"></i> Soạn Email
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/admin/email/history" class="nav-link text-white">
+                                <i class="fas fa-history"></i> Lịch sử Email
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/logout" class="nav-link text-white">
+                                <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-md-10">
+                <div class="container-fluid p-4">
+                    <div class="email-compose-container">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h2><i class="fas fa-edit"></i> Soạn Email</h2>
+                            <a href="/admin/email/history" class="btn btn-secondary">
+                                <i class="fas fa-history"></i> Lịch sử Email
+                            </a>
+                        </div>
+
+                        <!-- Success/Error Messages -->
+                        <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
+                            <i class="fas fa-check-circle"></i> <span th:text="${successMessage}"></span>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                        
+                        <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="fas fa-exclamation-circle"></i> <span th:text="${errorMessage}"></span>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+
+                        <!-- Candidate Info (if applicable) -->
+                        <div th:if="${candidate}" class="card mb-4">
+                            <div class="card-header">
+                                <h5><i class="fas fa-user"></i> Thông tin ứng viên</h5>
+                            </div>
+                            <div class="card-body">                                <div class="row">
+                                    <div class="col-md-6">
+                                        <strong>Họ tên:</strong> <span th:text="${candidate.fullName}"></span><br>
+                                        <strong>Điện thoại:</strong> <span th:text="${candidate.phoneNumber}"></span><br>
+                                        <strong>Email:</strong> <span th:text="${candidate.email != null ? candidate.email : 'Chưa có email'}"></span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>Địa chỉ:</strong> <span th:text="${candidate.address}"></span><br>
+                                        <strong>Ngày nộp:</strong> <span th:text="${#temporals.format(candidate.createdAt, 'dd/MM/yyyy HH:mm')}"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Email Templates -->
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h5><i class="fas fa-file-alt"></i> Template có sẵn</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="template-buttons">
+                                    <button type="button" class="btn btn-outline-primary" onclick="loadTemplate('application_received')">
+                                        <i class="fas fa-inbox"></i> Xác nhận nhận hồ sơ
+                                    </button>
+                                    <button type="button" class="btn btn-outline-success" onclick="loadTemplate('interview_invitation')">
+                                        <i class="fas fa-calendar-alt"></i> Mời phỏng vấn
+                                    </button>
+                                    <button type="button" class="btn btn-outline-warning" onclick="loadTemplate('job_offer')">
+                                        <i class="fas fa-gift"></i> Thư mời làm việc
+                                    </button>
+                                    <button type="button" class="btn btn-outline-danger" onclick="loadTemplate('rejection')">
+                                        <i class="fas fa-times-circle"></i> Từ chối ứng viên
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Email Form -->
+                        <form th:action="@{/admin/email/send}" method="post" th:object="${emailReply}">
+                            <input type="hidden" th:field="*{candidateId}">
+                            
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5><i class="fas fa-envelope"></i> Nội dung Email</h5>
+                                </div>
+                                <div class="card-body">
+                                    <!-- To Field -->
+                                    <div class="mb-3">
+                                        <label for="to" class="form-label"><strong>Đến (To) *</strong></label>
+                                        <input type="email" class="form-control" id="to" th:field="*{to}" required 
+                                               placeholder="example@email.com">
+                                    </div>
+
+                                    <!-- CC Field -->
+                                    <div class="mb-3">
+                                        <label for="cc" class="form-label">CC</label>
+                                        <input type="email" class="form-control" id="cc" th:field="*{cc}" 
+                                               placeholder="cc@email.com (tùy chọn)">
+                                    </div>
+
+                                    <!-- BCC Field -->
+                                    <div class="mb-3">
+                                        <label for="bcc" class="form-label">BCC</label>
+                                        <input type="email" class="form-control" id="bcc" th:field="*{bcc}" 
+                                               placeholder="bcc@email.com (tùy chọn)">
+                                    </div>
+
+                                    <!-- Subject Field -->
+                                    <div class="mb-3">
+                                        <label for="subject" class="form-label"><strong>Tiêu đề *</strong></label>
+                                        <input type="text" class="form-control" id="subject" th:field="*{subject}" required 
+                                               placeholder="Nhập tiêu đề email">
+                                    </div>                                    <!-- Content Field -->
+                                    <div class="mb-3">
+                                        <label for="content" class="form-label"><strong>Nội dung *</strong></label>
+                                        <div id="quill-editor" class="quill-editor"></div>
+                                        <textarea id="content" th:field="*{content}" class="form-control" 
+                                                  rows="10" placeholder="Nhập nội dung email ở đây..." 
+                                                  style="display: none;"></textarea>
+                                        <small id="editor-status" class="text-muted" style="display: none;">
+                                            <i class="fas fa-info-circle"></i> Đang tải trình soạn thảo...
+                                        </small>
+                                    </div>
+
+                                    <!-- HTML Checkbox -->
+                                    <div class="mb-3 form-check">                                        <input type="checkbox" class="form-check-input" id="html" th:field="*{html}" checked>
+                                        <label class="form-check-label" for="html">
+                                            Gửi dưới dạng HTML (Rich Text)
+                                        </label>
+                                    </div>
+
+                                    <!-- Buttons -->
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <button type="submit" class="btn btn-primary">
+                                                <i class="fas fa-paper-plane"></i> Gửi Email
+                                            </button>
+                                            <button type="button" class="btn btn-secondary" onclick="clearForm()">
+                                                <i class="fas fa-eraser"></i> Xóa nội dung
+                                            </button>
+                                        </div>
+                                        <a href="/admin/dashboard" class="btn btn-outline-secondary">
+                                            <i class="fas fa-arrow-left"></i> Quay lại
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>    <script>
+        // Wait for DOM to be fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            const editorContainer = document.getElementById('quill-editor');
+            const textareaField = document.getElementById('content');
+            const statusElement = document.getElementById('editor-status');
+            
+            // Show loading status
+            statusElement.style.display = 'block';
+            statusElement.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang tải trình soạn thảo...';
+            
+            // Check if Quill is available
+            if (typeof Quill !== 'undefined') {
+                try {
+                    // Initialize Quill Editor
+                    var quill = new Quill('#quill-editor', {
+                        theme: 'snow',
+                        placeholder: 'Nhập nội dung email ở đây...',
+                        modules: {
+                            toolbar: [
+                                [{ 'header': [1, 2, 3, false] }],
+                                ['bold', 'italic', 'underline', 'strike'],
+                                [{ 'color': [] }, { 'background': [] }],
+                                [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                                [{ 'align': [] }],
+                                ['link', 'image'],
+                                ['clean']
+                            ]
+                        }
+                    });
+
+                    // Sync Quill content with textarea
+                    quill.on('text-change', function() {
+                        textareaField.value = quill.root.innerHTML;
+                    });
+
+                    // Load initial content if any
+                    var initialContent = textareaField.value;
+                    if (initialContent && initialContent.trim() !== '') {
+                        quill.root.innerHTML = initialContent;
+                    }
+
+                    // Make quill available globally for other functions
+                    window.emailQuill = quill;
+                    
+                    // Hide status and show editor
+                    statusElement.style.display = 'none';
+                    editorContainer.style.display = 'block';
+                    
+                    console.log('Quill editor initialized successfully');
+                } catch (error) {
+                    console.error('Error initializing Quill:', error);
+                    showTextareaFallback();
+                }
+            } else {
+                console.warn('Quill library not loaded');
+                showTextareaFallback();
+            }
+        });
+
+        function showTextareaFallback() {
+            // Hide Quill editor and show textarea
+            document.getElementById('quill-editor').style.display = 'none';
+            document.getElementById('content').style.display = 'block';
+            document.getElementById('editor-status').innerHTML = 
+                '<i class="fas fa-edit"></i> Sử dụng chế độ text đơn giản';
+        }        // Load email template
+        function loadTemplate(templateType) {
+            var candidateName = /*[[${candidateName}]]*/ '[Tên ứng viên]';
+            
+            fetch('/admin/email/template/' + templateType + '?candidateName=' + encodeURIComponent(candidateName))
+                .then(response => response.text())
+                .then(content => {
+                    // Set subject based on template type
+                    var subjects = {
+                        'application_received': 'Xác nhận nhận hồ sơ ứng tuyển - WELL CENTER',
+                        'interview_invitation': 'Thư mời phỏng vấn - WELL CENTER',
+                        'job_offer': 'Thư mời làm việc - WELL CENTER',
+                        'rejection': 'Thông báo kết quả tuyển dụng - WELL CENTER'
+                    };
+                    
+                    document.getElementById('subject').value = subjects[templateType] || '';
+                    
+                    if (window.emailQuill) {
+                        window.emailQuill.root.innerHTML = content;
+                        document.getElementById('content').value = content;
+                    } else {
+                        // Use textarea directly
+                        document.getElementById('content').value = content;
+                    }
+                })
+                .catch(error => {
+                    alert('Có lỗi khi tải template: ' + error);
+                });
+        }
+
+        // Clear form
+        function clearForm() {
+            if (confirm('Bạn có chắc muốn xóa toàn bộ nội dung?')) {
+                document.getElementById('subject').value = '';
+                document.getElementById('to').value = '';
+                document.getElementById('cc').value = '';
+                document.getElementById('bcc').value = '';
+                
+                if (window.emailQuill) {
+                    window.emailQuill.root.innerHTML = '';
+                } else {
+                    document.getElementById('content').value = '';
+                }
+            }
+        }
+
+        // Form validation
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelector('form').addEventListener('submit', function(e) {
+                var content = '';
+                
+                if (window.emailQuill) {
+                    content = window.emailQuill.root.innerHTML.trim();
+                    document.getElementById('content').value = content;
+                } else {
+                    content = document.getElementById('content').value.trim();
+                }
+                
+                if (content === '<p><br></p>' || content === '' || content === '<p></p>') {
+                    e.preventDefault();
+                    alert('Vui lòng nhập nội dung email!');
+                    return false;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

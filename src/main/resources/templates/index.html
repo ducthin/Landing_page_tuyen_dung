@@ -455,8 +455,7 @@
                            placeholder="Nhập họ và tên đầy đủ của bạn">
                     <div class="error-message" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></div>
                 </div>
-                
-                <!-- Số điện thoại -->
+                  <!-- Số điện thoại -->
                 <div class="form-group">
                     <label class="form-label" for="phoneNumber">
                         <i class="fas fa-phone"></i>
@@ -468,6 +467,20 @@
                            th:field="*{phoneNumber}"
                            placeholder="Ví dụ: 0901234567">
                     <div class="error-message" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></div>
+                </div>
+                
+                <!-- Email -->
+                <div class="form-group">
+                    <label class="form-label" for="email">
+                        <i class="fas fa-envelope"></i>
+                        Email
+                    </label>
+                    <input type="email" 
+                           class="form-control" 
+                           id="email" 
+                           th:field="*{email}"
+                           placeholder="Ví dụ: yourname@gmail.com">
+                    <div class="error-message" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
                 </div>
                 
                 <!-- Địa chỉ -->
