@@ -21,6 +21,7 @@ services:
       retries: 15
       interval: 10s
       start_period: 30s
+
   app:
     build: .
     container_name: recruitment_app
@@ -38,6 +39,7 @@ services:
       SPRING_MAIL_USERNAME: ${MAIL_USERNAME}
       SPRING_MAIL_PASSWORD: ${MAIL_PASSWORD}
       APP_BASE_URL: ${BASE_URL}
+      TZ: Asia/Ho_Chi_Minh
     networks:
       - recruitment_network
     restart: unless-stopped
@@ -47,6 +49,7 @@ services:
       retries: 5
       interval: 30s
       start_period: 40s
+
   nginx:
     image: nginx:alpine
     container_name: recruitment_nginx

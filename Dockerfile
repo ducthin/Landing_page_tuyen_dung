@@ -25,6 +25,11 @@ RUN ./mvnw clean package -DskipTests
 # Runtime stage
 FROM eclipse-temurin:17-jre-alpine
 
+# Set timezone to Asia/Ho_Chi_Minh
+RUN apk add --no-cache tzdata && \
+    cp /usr/share/zoneinfo/Asia/Ho_Chi_Minh /etc/localtime && \
+    echo "Asia/Ho_Chi_Minh" > /etc/timezone
+
 # Create user for security
 RUN addgroup --system spring && adduser --system spring --ingroup spring
 
@@ -50,5 +55,5 @@ EXPOSE 8080
 HEALTHCHECK --interval=30s --timeout=3s --start-period=60s --retries=3 \
   CMD curl -f http://localhost:8080/actuator/health || exit 1
 
-# Run application
-ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=prod", "app.jar"]
+# Run application with timezone setting
+ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=prod", "-Duser.timezone=Asia/Ho_Chi_Minh", "app.jar"]

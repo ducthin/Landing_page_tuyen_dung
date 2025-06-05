@@ -55,11 +55,10 @@ public class CandidateEntity {
         this.fullName = fullName;
         this.phoneNumber = phoneNumber;
         this.address = address;
-        this.availableStartTime = availableStartTime;
-        this.cvData = cvData;
+        this.availableStartTime = availableStartTime;        this.cvData = cvData;
         this.cvContentType = cvContentType;
         this.cvOriginalFilename = cvOriginalFilename;
-        this.createdAt = LocalDateTime.now();
+        this.createdAt = ZonedDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")).toLocalDateTime();
     }
     
     // Custom constructor for file storage (backward compatibility)
