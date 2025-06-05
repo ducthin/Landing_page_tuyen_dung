@@ -19,16 +19,11 @@ public class DataLoader implements ApplicationRunner {
     private PasswordEncoder passwordEncoder;
 
     @Value("${app.admin.username:admintuyendung}")
-    private String adminUsername;    @Value("${app.admin.password:Wellcenter}")
-    private String adminPassword;
-
-    @Override
+    private String adminUsername;    
+    @Value("${app.admin.password:Wellcenter}")
+    private String adminPassword;    @Override
     public void run(ApplicationArguments args) throws Exception {
-        // Bước 1: Xóa TẤT CẢ các user admin cũ để đảm bảo bảo mật
         userRepository.deleteByRole("ADMIN");
-        System.out.println("🗑️ Removed all existing admin users for security");
-        
-        // Bước 2: Tạo DUY NHẤT 1 admin user mới từ biến môi trường
         User admin = new User();
         admin.setUsername(adminUsername);
         admin.setPassword(passwordEncoder.encode(adminPassword));
@@ -36,9 +31,5 @@ public class DataLoader implements ApplicationRunner {
         admin.setEnabled(true);
         
         userRepository.save(admin);
-        System.out.println("✅ New admin user created successfully!");
-        System.out.println("   Username: " + adminUsername);
-        System.out.println("   Password: " + adminPassword);
-        System.out.println("🔒 All default admin accounts have been removed for security");
     }
 }

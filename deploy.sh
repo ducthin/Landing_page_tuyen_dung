@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Script deploy nhanh
-echo "🚀 Bắt đầu deploy ứng dụng..."
+echo "Bắt đầu deploy ứng dụng..."
 
 # Kiểm tra file .env
 if [ ! -f ".env" ]; then
@@ -12,24 +12,23 @@ if [ ! -f ".env" ]; then
 fi
 
 # Stop các container cũ
-echo "🛑 Dừng containers cũ..."
+echo "Dừng containers cũ..."
 docker-compose down
 
 # Build lại image
-echo "🏗️ Build application..."
+echo "Build application..."
 docker-compose build --no-cache
 
 # Start services
-echo "▶️ Khởi động services..."
+echo "Khởi động services..."
 docker-compose up -d
 
 # Kiểm tra status
-echo "📊 Kiểm tra trạng thái..."
+echo " Kiểm tra trạng thái..."
 sleep 10
 docker-compose ps
 
 echo "✅ Deploy hoàn thành!"
 echo "🌐 Ứng dụng đang chạy tại: http://localhost"
 echo "📊 Health check: http://localhost/actuator/health"
-echo "🔐 Đăng nhập admin: admintuyendung / Wellcenter"
-echo "⚠️  Lưu ý: Tất cả tài khoản admin cũ đã bị xóa để đảm bảo bảo mật"
+
