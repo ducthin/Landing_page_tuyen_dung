@@ -16,8 +16,7 @@ public class EmailService {
     
     @Autowired
     private JavaMailSender mailSender;
-    
-    @Value("${app.admin.email}")
+      @Value("${app.admin.email}")
     private String adminEmail;
     
     @Value("${app.admin.name}")
@@ -25,6 +24,9 @@ public class EmailService {
     
     @Value("${spring.mail.username}")
     private String fromEmail;
+    
+    @Value("${app.base.url:https://tuyendungwellcenter.com}")
+    private String baseUrl;
       public void sendNewCandidateNotification(CandidateEntity candidate) {
         // Kiểm tra cấu hình email trước khi gửi
         if (fromEmail == null || fromEmail.trim().isEmpty()) {
@@ -167,10 +169,9 @@ public class EmailService {
                         <span class="value">%s</span>
                     </div>
                 </div>
-                
-                <div class="action-section">
+                  <div class="action-section">
                     <div class="action-title">Hành động tiếp theo:</div>
-                    <p>Truy cập <a href="http://localhost:8080/admin/dashboard" class="link">hệ thống quản lý</a> để xem chi tiết và tải CV.</p>
+                    <p>Truy cập <a href="%s/admin/dashboard" class="link">hệ thống quản lý</a> để xem chi tiết và tải CV.</p>
                 </div>
                 
                 <div class="footer">
@@ -178,8 +179,7 @@ public class EmailService {
                     <p>Vui lòng không trả lời email này.</p>
                 </div>
             </body>
-            </html>
-            """.formatted(
+            </html>            """.formatted(
                 candidate.getFullName(),
                 candidate.getPhoneNumber(),
                 candidate.getAddress(),
@@ -187,7 +187,8 @@ public class EmailService {
                 formattedDate,
                 candidate.getCvOriginalFilename() != null ? 
                     "Đã tải lên CV: " + candidate.getCvOriginalFilename() : 
-                    "Chưa có CV"
+                    "Chưa có CV",
+                baseUrl
             );
     }
 }
