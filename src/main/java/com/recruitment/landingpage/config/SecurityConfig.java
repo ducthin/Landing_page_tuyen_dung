@@ -30,16 +30,15 @@ public class SecurityConfig {
                 .httpStrictTransportSecurity(hstsConfig -> hstsConfig
                     .maxAgeInSeconds(31536000)
                     .includeSubDomains(true)
-                )
-                // Thêm CSP cho phép Google Maps
+                )                // Thêm CSP cho phép Google Maps
                 .contentSecurityPolicy(csp -> csp
                     .policyDirectives("default-src 'self'; " +
-                        "script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; " +
+                        "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://maps.googleapis.com https://maps.gstatic.com; " +
                         "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://fonts.googleapis.com; " +
                         "font-src 'self' https://cdnjs.cloudflare.com https://fonts.gstatic.com; " +
-                        "img-src 'self' data: https://maps.googleapis.com https://maps.gstatic.com https://*.googleapis.com https://*.gstatic.com; " +
-                        "frame-src 'self' https://www.google.com https://maps.google.com; " +
-                        "connect-src 'self' https://maps.googleapis.com;")
+                        "img-src 'self' data: https://maps.googleapis.com https://maps.gstatic.com https://*.googleapis.com https://*.gstatic.com https://*.ggpht.com https://*.googleusercontent.com; " +
+                        "frame-src 'self' https://www.google.com https://maps.google.com https://www.google.com/maps/embed; " +
+                        "connect-src 'self' https://maps.googleapis.com https://maps.gstatic.com;")
                 )
             )
             // Cấu hình authorize requests
