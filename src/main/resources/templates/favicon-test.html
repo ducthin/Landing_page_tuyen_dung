@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favicon Test - WELL CENTER</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 2rem 0;
+        }
+
+        .test-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 3rem;
+        }
+
+        .title {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 2rem;
+            font-weight: 600;
+        }
+
+        .favicon-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .favicon-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+
+        .favicon-card:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .favicon-preview {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 1rem;
+            background: white;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .favicon-preview img {
+            max-width: 48px;
+            max-height: 48px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+
+        .status-success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .file-path {
+            font-family: monospace;
+            font-size: 0.8rem;
+            color: #6c757d;
+            background: #e9ecef;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            margin-top: 0.5rem;
+            word-break: break-all;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1 class="title">
+            <i class="fas fa-star"></i>
+            Favicon Test Results - WELL CENTER
+        </h1>
+
+        <div class="alert alert-info">
+            <h5><i class="fas fa-info-circle"></i> Kiểm tra favicon</h5>
+            <p>Trang này hiển thị tất cả favicon đã được thêm vào website. Kiểm tra xem favicon có hiển thị trên tab browser không.</p>
+        </div>
+
+        <h3>🔍 Favicon Files Detected:</h3>
+
+        <div class="favicon-grid">
+            <div class="favicon-card">
+                <div class="favicon-preview">
+                    <img src="/favicon.ico" alt="favicon.ico" onerror="this.style.display='none'">
+                </div>
+                <h6>Standard Favicon</h6>
+                <div class="file-path">/favicon.ico</div>
+                <span class="status-badge status-success">✓ Available</span>
+            </div>
+
+            <div class="favicon-card">
+                <div class="favicon-preview">
+                    <img src="/images/favicon.svg" alt="favicon.svg" onerror="this.style.display='none'">
+                </div>
+                <h6>SVG Favicon</h6>
+                <div class="file-path">/images/favicon.svg</div>
+                <span class="status-badge status-success">✓ Available</span>
+            </div>
+
+            <div class="favicon-card">
+                <div class="favicon-preview">
+                    <img src="/images/favicon-32x32.png" alt="favicon-32x32" onerror="this.style.display='none'">
+                </div>
+                <h6>PNG Favicon 32x32</h6>
+                <div class="file-path">/images/favicon-32x32.png</div>
+                <span class="status-badge status-success">✓ Available</span>
+            </div>
+
+            <div class="favicon-card">
+                <div class="favicon-preview">
+                    <img src="/images/apple-touch-icon.png" alt="apple-touch-icon" onerror="this.style.display='none'">
+                </div>
+                <h6>Apple Touch Icon</h6>
+                <div class="file-path">/images/apple-touch-icon.png</div>
+                <span class="status-badge status-success">✓ Available</span>
+            </div>
+
+            <div class="favicon-card">
+                <div class="favicon-preview">
+                    <img src="/images/apple-icon-180x180.png" alt="apple-icon-180x180" onerror="this.style.display='none'">
+                </div>
+                <h6>Apple Icon 180x180</h6>
+                <div class="file-path">/images/apple-icon-180x180.png</div>
+                <span class="status-badge status-success">✓ Available</span>
+            </div>
+
+            <div class="favicon-card">
+                <div class="favicon-preview">
+                    <img src="/images/android-icon-192x192.png" alt="android-icon-192x192" onerror="this.style.display='none'">
+                </div>
+                <h6>Android Icon 192x192</h6>
+                <div class="file-path">/images/android-icon-192x192.png</div>
+                <span class="status-badge status-success">✓ Available</span>
+            </div>
+
+            <div class="favicon-card">
+                <div class="favicon-preview">
+                    <img src="/images/web-app-manifest-192x192.png" alt="web-app-manifest-192x192" onerror="this.style.display='none'">
+                </div>
+                <h6>Web App Icon 192x192</h6>
+                <div class="file-path">/images/web-app-manifest-192x192.png</div>
+                <span class="status-badge status-success">✓ Available</span>
+            </div>
+
+            <div class="favicon-card">
+                <div class="favicon-preview">
+                    <img src="/images/web-app-manifest-512x512.png" alt="web-app-manifest-512x512" onerror="this.style.display='none'">
+                </div>
+                <h6>Web App Icon 512x512</h6>
+                <div class="file-path">/images/web-app-manifest-512x512.png</div>
+                <span class="status-badge status-success">✓ Available</span>
+            </div>
+        </div>
+
+        <h3>📱 Mobile Test:</h3>
+        <div class="alert alert-warning">
+            <p><strong>Để test trên mobile:</strong></p>
+            <ul>
+                <li><strong>iOS:</strong> Thêm website vào Home Screen để xem Apple Touch Icon</li>
+                <li><strong>Android:</strong> Thêm website vào Home Screen để xem Web App Icon</li>
+                <li><strong>Windows:</strong> Pin website to Start Menu để xem Metro Tile</li>
+            </ul>
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="/" class="btn btn-primary btn-lg">
+                <i class="fas fa-home"></i>
+                Về Trang Chủ
+            </a>
+            <a href="/test-errors" class="btn btn-secondary btn-lg ms-2">
+                <i class="fas fa-bug"></i>
+                Test Error Pages
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Check if images load successfully
+        document.addEventListener('DOMContentLoaded', function() {
+            const images = document.querySelectorAll('.favicon-preview img');
+            images.forEach(img => {
+                img.addEventListener('error', function() {
+                    const card = this.closest('.favicon-card');
+                    const badge = card.querySelector('.status-badge');
+                    badge.textContent = '✗ Missing';
+                    badge.className = 'status-badge status-error';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
