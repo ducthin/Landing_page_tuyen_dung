@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favicon Generator Tool - WELL CENTER</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 2rem 0;
+        }
+
+        .tool-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 3rem;
+        }
+
+        .title {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 2rem;
+            font-weight: 600;
+        }
+
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+
+        .size-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .size-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: center;
+            border: 2px solid #e9ecef;
+        }
+
+        .size-card h6 {
+            color: #495057;
+            margin-bottom: 0.5rem;
+        }
+
+        .size-card .badge {
+            background: #667eea;
+        }
+
+        .tool-link {
+            display: inline-block;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .tool-link:hover {
+            transform: translateY(-2px);
+            color: white;
+        }
+
+        .step {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .step-number {
+            background: #667eea;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="tool-container">
+        <h1 class="title">
+            <i class="fas fa-star"></i>
+            Favicon Generator Tool
+        </h1>
+
+        <div class="info-box">
+            <h5><i class="fas fa-info-circle"></i> Thông tin quan trọng</h5>
+            <p><strong>Hiện tại bạn đã có:</strong></p>
+            <ul>
+                <li>✅ Favicon HTML code đầy đủ</li>
+                <li>✅ Web App Manifest</li>
+                <li>✅ Browser Config</li>
+                <li>❌ Các file favicon với đúng kích thước</li>
+            </ul>
+            <p><strong>Bạn cần tạo các favicon với kích thước khác nhau từ logo hiện tại.</strong></p>
+        </div>
+
+        <h3>🎯 Cách tạo favicon đầy đủ:</h3>
+
+        <div class="step">
+            <div class="d-flex align-items-center">
+                <span class="step-number">1</span>
+                <div>
+                    <h5>Sử dụng Online Favicon Generator</h5>
+                    <p>Dùng logo.png hiện tại để tạo tất cả kích thước cần thiết</p>
+                    <a href="https://www.favicon-generator.org/" target="_blank" class="tool-link">
+                        <i class="fas fa-external-link-alt"></i> Favicon Generator
+                    </a>
+                    <a href="https://realfavicongenerator.net/" target="_blank" class="tool-link">
+                        <i class="fas fa-star"></i> Real Favicon Generator
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="d-flex align-items-center">
+                <span class="step-number">2</span>
+                <div>
+                    <h5>Upload logo.png và tải về favicon package</h5>
+                    <p>Các tool sẽ tạo ra tất cả file cần thiết với đúng kích thước</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="d-flex align-items-center">
+                <span class="step-number">3</span>
+                <div>
+                    <h5>Copy các file vào thư mục /static/images/</h5>
+                    <p>Đặt tất cả favicon files vào thư mục images</p>
+                </div>
+            </div>
+        </div>
+
+        <h3>📏 Kích thước favicon cần thiết:</h3>
+
+        <div class="size-grid">
+            <div class="size-card">
+                <h6>Favicon cơ bản</h6>
+                <span class="badge">16x16</span>
+                <span class="badge">32x32</span>
+                <span class="badge">96x96</span>
+            </div>
+
+            <div class="size-card">
+                <h6>Apple Touch Icons</h6>
+                <span class="badge">57x57</span>
+                <span class="badge">60x60</span>
+                <span class="badge">72x72</span>
+                <span class="badge">76x76</span>
+                <span class="badge">114x114</span>
+                <span class="badge">120x120</span>
+                <span class="badge">144x144</span>
+                <span class="badge">152x152</span>
+                <span class="badge">180x180</span>
+            </div>
+
+            <div class="size-card">
+                <h6>Android Icons</h6>
+                <span class="badge">36x36</span>
+                <span class="badge">48x48</span>
+                <span class="badge">72x72</span>
+                <span class="badge">96x96</span>
+                <span class="badge">144x144</span>
+                <span class="badge">192x192</span>
+                <span class="badge">512x512</span>
+            </div>
+
+            <div class="size-card">
+                <h6>Windows Metro</h6>
+                <span class="badge">70x70</span>
+                <span class="badge">150x150</span>
+                <span class="badge">310x310</span>
+            </div>
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="/" class="tool-link" style="background: #6c757d;">
+                <i class="fas fa-home"></i>
+                Về Trang Chủ
+            </a>
+        </div>
+    </div>
+</body>
+</html>

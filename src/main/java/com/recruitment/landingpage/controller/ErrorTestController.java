@@ -13,6 +13,11 @@ public class ErrorTestController {
         return "test-errors";
     }
 
+    @GetMapping("/favicon-guide")
+    public String showFaviconGuide() {
+        return "favicon-guide";
+    }
+
     @GetMapping("/test-404")
     public String test404() {
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Test 404 Error");
