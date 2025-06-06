@@ -38,17 +38,17 @@
             max-width: 1200px;
             margin: 0 auto;
             align-items: center;
-            gap: 4rem;
-            padding: 2rem;
+            gap: 8.7rem;
         }
-        
-        .hero-image {
+          .hero-image {
             flex: 1;
             display: flex;
             justify-content: center;
             align-items: center;
+            position: relative;
         }
-          .hero-image img {
+        
+        .hero-image img {
             width: 100%;
             max-width: 400px;
             height: 400px;
@@ -57,10 +57,30 @@
             box-shadow: 0 20px 40px rgba(0,0,0,0.3);
         }
         
+        .company-name-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+            z-index: 3;
+        }
+        
         .hero-text {
             flex: 1;
             text-align: left;
             padding: 2rem 0;
+            margin-left: 1.4rem;
         }
 
         .hero-banner::before {
@@ -96,25 +116,25 @@
           .hero-title {
             font-size: 3rem;
             font-weight: 700;
-            margin-bottom: 1rem;
             color: #1e293b;
             text-shadow: none;
         }
           .hero-subtitle {
             font-size: 1.3rem;
-            margin-bottom: 2rem;
-            color: #475569;
+            color: #000000;
             line-height: 1.6;
+            font-weight: 700;
+            font-size: 1.5rem;
         }
         
         .hero-description {
             font-size: 1.1rem;
-            margin-bottom: 2rem;
-            color: #64748b;
+            color: #1b1b1b;
             line-height: 1.8;
             max-width: 600px;
             margin-left: auto;
             margin-right: auto;
+            font-weight: 600;
         }
         
         .cta-section {
@@ -211,11 +231,11 @@
             font-size: 1rem;
             transition: border-color 0.3s ease;
         }
-          .form-control:focus {
+        .form-control:focus {
             border-color: #FFA726;
             box-shadow: 0 0 0 0.2rem rgba(255, 167, 38, 0.25);
         }
-          .btn-submit {
+        .btn-submit {
             background: linear-gradient(135deg, #FFA726 0%, #FF7043 100%);
             border: none;
             border-radius: 25px;
@@ -261,7 +281,8 @@
             transition: all 0.3s ease;
             display: block;
             backdrop-filter: blur(10px);
-        }        .file-upload-label:hover {
+        }        
+        .file-upload-label:hover {
             border-color: #FFA726;
             background: rgba(255, 255, 255, 0.95);
         }
@@ -368,7 +389,6 @@
         @media (max-width: 768px) {
             .hero-banner {
                 min-height: auto;
-                padding: 2rem 0;
             }
             
             .hero-split {
@@ -392,7 +412,18 @@
             }
             
             .hero-subtitle {
+
                 font-size: 1.1rem;
+            }
+
+            .hero-subtitle p{
+                font-size: 1rem;
+                line-height: 1.4;
+            }
+
+            .hero-description {
+                font-size: 1rem;
+                max-width: 100%;
             }
             
             .form-container {
@@ -407,16 +438,18 @@
         }
     </style>
 </head>
-<body>    <!-- Hero Banner Section -->    
+<body>    <!-- Hero Banner Section -->      
     <div class="hero-banner">
         <div class="hero-content">
+            <h1 class="hero-title" style="text-align: center;">CÔNG TY TNHH WELL CENTER</h1>
             <div class="hero-split">
                 <div class="hero-image">
                     <img src="/images/banner.jpg" alt="WELL CENTER">
                 </div>
                 <div class="hero-text">
-                    <h1 class="hero-title">CÔNG TY TNHH WELL CENTER</h1>
                     <p class="hero-subtitle">Nơi Khởi Nguồn Sự Nghiệp Của Bạn</p>
+                    <p class="hero-description">
+                        Well Center là một công ty chuyên cung cấp các sản phẩm bổ trợ sức khỏe và đồ dùng trong gia đình. Well Center hướng đến việc giúp khách hàng có một cuộc sống khỏe mạnh hơn thông qua các sản phẩm dinh dưỡng và chăm sóc bản thân, gia đình. Well Center cũng thường xuyên tuyển dụng các vị trí như nhân viên chăm sóc khách hàng, nhân viên kinh doanh, tư vấn sản phẩm, với chính sách đào tạo từ đầu cho những ứng viên chưa có kinh nghiệm.
                     <div class="cta-section">
                         <a href="#application-form" class="cta-button">
                             <i class="fas fa-rocket"></i> Bắt Đầu Ứng Tuyển

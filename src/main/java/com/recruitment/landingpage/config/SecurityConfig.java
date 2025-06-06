@@ -23,14 +23,14 @@ public class SecurityConfig {
     }    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .userDetailsService(userDetailsService)            // Cấu hình HTTPS security headers
+            .userDetailsService(userDetailsService)  
             .headers(headers -> headers
-                .frameOptions(frameOptions -> frameOptions.sameOrigin()) // Cho phép iframe từ cùng origin
+                .frameOptions(frameOptions -> frameOptions.sameOrigin()) 
                 .contentTypeOptions(contentTypeOptions -> {})
                 .httpStrictTransportSecurity(hstsConfig -> hstsConfig
                     .maxAgeInSeconds(31536000)
                     .includeSubDomains(true)
-                )                // Thêm CSP cho phép Google Maps
+                )
                 .contentSecurityPolicy(csp -> csp
                     .policyDirectives("default-src 'self'; " +
                         "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://maps.googleapis.com https://maps.gstatic.com; " +

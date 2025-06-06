@@ -241,7 +241,8 @@ public class EmailService {
             
             // Save to history
             history.setToEmail(emailReply.getTo());
-            history.setCcEmail(emailReply.getCc());            history.setBccEmail(emailReply.getBcc());
+            history.setCcEmail(emailReply.getCc());            
+            history.setBccEmail(emailReply.getBcc());
             history.setSubject(emailReply.getSubject());
             history.setContent(emailReply.getContent());
             history.setHtml(emailReply.isHtml());
