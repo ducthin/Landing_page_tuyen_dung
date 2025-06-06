@@ -15,10 +15,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-
-import java.time.format.DateTimeFormatter;
-import java.time.LocalDateTime;
-import java.util.List;
+import java.time.format.DateTimeFormatter;import java.util.List;
 
 @Service
 public class EmailService {

@@ -37,8 +37,6 @@ public class CustomErrorController implements ErrorController {
             // Add exception details for development
             if (exception != null) {
                 model.addAttribute("error", exception.getClass().getSimpleName());
-                // Only show stack trace in development mode
-                // model.addAttribute("trace", getStackTrace((Exception) exception));
             }
 
             // Route to specific error pages
@@ -65,13 +63,5 @@ public class CustomErrorController implements ErrorController {
         model.addAttribute("errorTitle", "Có Lỗi Xảy Ra");
         model.addAttribute("errorDescription", "Hệ thống gặp sự cố không mong muốn. Chúng tôi sẽ khắc phục trong thời gian sớm nhất.");
         return "error";
-    }
-
-    // Helper method to get stack trace (for development)
-    private String getStackTrace(Exception ex) {
-        java.io.StringWriter sw = new java.io.StringWriter();
-        java.io.PrintWriter pw = new java.io.PrintWriter(sw);
-        ex.printStackTrace(pw);
-        return sw.toString();
     }
 }
