@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Error Pages - WELL CENTER</title>
+    
+    <link rel="icon" type="image/png" href="/images/logo.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 2rem 0;
+        }
+
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 3rem;
+        }
+
+        .test-title {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 2rem;
+            font-weight: 600;
+        }
+
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .test-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .test-card:hover {
+            border-color: #667eea;
+            transform: translateY(-5px);
+        }
+
+        .test-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .test-404 { color: #667eea; }
+        .test-500 { color: #e74c3c; }
+        .test-403 { color: #f39c12; }
+        .test-general { color: #27ae60; }
+
+        .test-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            margin-top: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .test-btn:hover {
+            transform: translateY(-2px);
+            color: white;
+        }
+
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1 class="test-title">
+            <i class="fas fa-bug"></i>
+            Test Error Pages - WELL CENTER
+        </h1>
+
+        <div class="info-box">
+            <p><strong>Hướng dẫn:</strong></p>
+            <ul>
+                <li>Click vào các nút bên dưới để test các trang báo lỗi</li>
+                <li>Các trang error sẽ tự động hiển thị khi có lỗi thực tế xảy ra</li>
+                <li>Spring Boot sẽ tự động route đến đúng error page dựa trên status code</li>
+            </ul>
+        </div>
+
+        <div class="test-grid">
+            <div class="test-card">
+                <div class="test-icon test-404">
+                    <i class="fas fa-search"></i>
+                </div>
+                <h3>404 Error</h3>
+                <p>Trang không tìm thấy</p>
+                <a href="/nonexistent-page" class="test-btn">Test 404</a>
+            </div>
+
+            <div class="test-card">
+                <div class="test-icon test-500">
+                    <i class="fas fa-server"></i>
+                </div>
+                <h3>500 Error</h3>
+                <p>Lỗi máy chủ nội bộ</p>
+                <a href="/test-500" class="test-btn">Test 500</a>
+            </div>
+
+            <div class="test-card">
+                <div class="test-icon test-403">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <h3>403 Error</h3>
+                <p>Truy cập bị từ chối</p>
+                <a href="/test-403" class="test-btn">Test 403</a>
+            </div>
+
+            <div class="test-card">
+                <div class="test-icon test-general">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <h3>General Error</h3>
+                <p>Trang lỗi tổng quát</p>
+                <a href="/error" class="test-btn">Test General</a>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 3rem;">
+            <a href="/" class="test-btn" style="background: #6c757d;">
+                <i class="fas fa-home"></i>
+                Về Trang Chủ
+            </a>
+        </div>
+    </div>
+</body>
+</html>

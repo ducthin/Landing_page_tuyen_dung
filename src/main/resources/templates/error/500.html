@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>500 - Lỗi Máy Chủ | WELL CENTER</title>
+    
+    <link rel="icon" type="image/png" href="/images/logo.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+        }
+
+        .error-container {
+            max-width: 500px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 3rem;
+            text-align: center;
+            margin: 2rem;
+        }
+
+        .error-500 {
+            font-size: 8rem;
+            font-weight: bold;
+            color: #e74c3c;
+            margin-bottom: 1rem;
+        }
+
+        .error-title {
+            font-size: 1.8rem;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .error-message {
+            color: #7f8c8d;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .loading {
+            margin: 1rem 0;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #e74c3c;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .btn-retry {
+            background: #e74c3c;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            margin: 0.5rem;
+        }
+
+        .btn-retry:hover {
+            transform: translateY(-2px);
+            color: white;
+            background: #c0392b;
+        }
+
+        .btn-home {
+            background: #6c757d;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: transform 0.3s ease;
+            margin: 0.5rem;
+        }
+
+        .btn-home:hover {
+            transform: translateY(-2px);
+            color: white;
+            background: #5a6268;
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <div class="error-500">500</div>
+        <h1 class="error-title">Lỗi Máy Chủ</h1>
+        <p class="error-message">
+            Đã xảy ra lỗi kỹ thuật. Chúng tôi đang khắc phục sự cố.
+        </p>
+        
+        <div class="loading">
+            <div class="spinner"></div>
+            <p style="margin-top: 1rem; color: #7f8c8d;">Đang xử lý...</p>
+        </div>
+        
+        <div>
+            <button onclick="location.reload()" class="btn-retry">
+                <i class="fas fa-redo"></i>
+                Thử Lại
+            </button>
+            <a href="/" class="btn-home">
+                <i class="fas fa-home"></i>
+                Về Trang Chủ
+            </a>
+        </div>
+    </div>
+</body>
+</html>

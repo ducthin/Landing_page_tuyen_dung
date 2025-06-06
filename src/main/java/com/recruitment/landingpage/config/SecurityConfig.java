@@ -43,7 +43,7 @@ public class SecurityConfig {
             )
             // Cấu hình authorize requests
             .authorizeHttpRequests(authz -> authz               
-                .requestMatchers("/", "/submit", "/success", "/css/**", "/js/**", "/images/**", "/test-email", "/email-config", "/actuator/health").permitAll()
+                .requestMatchers("/", "/submit", "/success", "/css/**", "/js/**", "/images/**", "/actuator/health").permitAll()
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
             )

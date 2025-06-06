@@ -16,10 +16,11 @@ public class DataLoader implements ApplicationRunner {
     private UserRepository userRepository;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;    @Value("${app.admin.username:admintuyendung}")
+    private PasswordEncoder passwordEncoder;    
+    @Value("${app.admin.username:1}")
     private String adminUsername;
     
-    @Value("${app.admin.password:Wellcenter}")
+    @Value("${app.admin.password:1}")
     private String adminPassword;    @Override
     public void run(ApplicationArguments args) throws Exception {
         // Bước 1: Xóa TẤT CẢ các user admin cũ để đảm bảo bảo mật
