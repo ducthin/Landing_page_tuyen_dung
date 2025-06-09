@@ -192,23 +192,19 @@
                                         <small id="editor-status" class="text-muted" style="display: none;">
                                             <i class="fas fa-info-circle"></i> Đang tải trình soạn thảo...
                                         </small>
-                                    </div>
-
-                                    <!-- HTML Checkbox -->
-                                    <div class="mb-3 form-check">                                        
-                                        <input type="checkbox" class="form-check-input" id="html" th:field="*{html}" checked>
-                                        <label class="form-check-label" for="html">
-                                            Gửi dưới dạng HTML (Rich Text)
-                                        </label>
-                                    </div>
-
+                                    </div>                                    <!-- HTML Format (Hidden) - Always true for rich text -->
+                                    <input type="hidden" name="html" value="true">
+                                    
                                     <!-- Buttons -->
                                     <div class="d-flex justify-content-between">
                                         <div>
+                                            <button type="button" class="btn btn-outline-info me-2" onclick="previewEmail()">
+                                                <i class="fas fa-eye"></i> Xem trước email
+                                            </button>
                                             <button type="submit" class="btn btn-primary">
                                                 <i class="fas fa-paper-plane"></i> Gửi Email
                                             </button>
-                                            <button type="button" class="btn btn-secondary" onclick="clearForm()">
+                                            <button type="button" class="btn btn-secondary ms-2" onclick="clearForm()">
                                                 <i class="fas fa-eraser"></i> Xóa nội dung
                                             </button>
                                         </div>
@@ -321,9 +317,7 @@
                 .catch(error => {
                     alert('Có lỗi khi tải template: ' + error);
                 });
-        }
-
-        // Clear form
+        }        // Clear form
         function clearForm() {
             if (confirm('Bạn có chắc muốn xóa toàn bộ nội dung?')) {
                 document.getElementById('subject').value = '';
@@ -332,11 +326,69 @@
                 document.getElementById('bcc').value = '';
                 
                 if (window.emailQuill) {
-                    window.emailQuill.root.innerHTML = '';
+                    window.emailQuill.setContents([]);
+                    document.getElementById('content').value = '';
                 } else {
                     document.getElementById('content').value = '';
                 }
             }
+        }        // Preview email
+        function previewEmail() {
+            var content = '';
+            var subject = document.getElementById('subject').value || 'Email Preview';
+            var to = document.getElementById('to').value || 'recipient@example.com';
+            var isHTML = true; // Always HTML format since we removed the checkbox
+            
+            if (window.emailQuill) {
+                content = window.emailQuill.root.innerHTML;
+            } else {
+                content = document.getElementById('content').value;
+            }
+            
+            if (!content.trim() || content === '<p><br></p>' || content === '<p></p>') {
+                alert('Vui lòng nhập nội dung email trước khi xem trước!');
+                return;
+            }
+            
+            // Escape quotes in content for safe insertion
+            var safeContent = content.replace(/'/g, '&#39;').replace(/"/g, '&quot;');
+            var safeSubject = subject.replace(/'/g, '&#39;').replace(/"/g, '&quot;');
+            var safeTo = to.replace(/'/g, '&#39;').replace(/"/g, '&quot;');
+            
+            // Create preview window
+            var previewWindow = window.open('', 'emailPreview', 'width=900,height=700,scrollbars=yes,resizable=yes');
+            
+            // Build HTML content
+            var htmlContent = '<!DOCTYPE html>' +
+                '<html><head><meta charset="UTF-8">' +
+                '<title>Preview: ' + safeSubject + '</title>' +
+                '<style>' +
+                'body { font-family: Arial, sans-serif; margin: 20px; background-color: #f0f2f5; }' +
+                '.email-container { max-width: 800px; margin: 0 auto; background: white; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); padding: 20px; }' +
+                '.email-header { background: #2c5aa0; color: white; padding: 20px; margin: -20px -20px 20px -20px; border-radius: 8px 8px 0 0; }' +
+                '.email-meta { background: #f8f9fa; padding: 15px; border-radius: 5px; margin-bottom: 20px; }' +
+                '.toggle-btn { background: #007bff; color: white; border: none; padding: 10px 15px; margin: 5px; border-radius: 5px; cursor: pointer; }' +
+                '</style></head><body>' +
+                '<div class="email-container">' +
+                '<div class="email-header">' +
+                '<h2 style="margin: 0;">📧 Email Preview</h2>' +
+                '</div>' +
+                '<div class="email-meta">' +
+                '<strong>To:</strong> ' + safeTo + '<br>' +
+                '<strong>Subject:</strong> ' + safeSubject + '<br>' +
+                '<strong>Format:</strong> HTML (Rich Text)' +
+                '</div>' +
+                '<div style="border: 1px solid #dee2e6; border-radius: 5px; padding: 20px;">' +
+                content +
+                '</div>' +
+                '<div style="text-align: center; margin-top: 20px;">' +
+                '<button class="toggle-btn" onclick="window.close()">Đóng</button>' +
+                '</div>' +
+                '</div></body></html>';
+            
+            previewWindow.document.write(htmlContent);
+            previewWindow.document.close();
+            previewWindow.focus();
         }
 
         // Form validation
