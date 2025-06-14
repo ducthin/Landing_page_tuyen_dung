@@ -424,8 +424,18 @@ public class EmailService {
                         <strong>Mức lương:</strong> [Thỏa thuận]<br>
                         <strong>Địa điểm làm việc:</strong> 154 Đ. Phạm Văn Chiêu, Phường 8, Gò Vấp, TP.HCM
                     </div>
+                      <p>Vui lòng xác nhận việc nhận offer này và thời gian có thể bắt đầu làm việc.</p>
                     
-                    <p>Vui lòng xác nhận việc nhận offer này và thời gian có thể bắt đầu làm việc.</p>
+                    <div style="background-color: #fff3cd; padding: 15px; border-radius: 5px; margin: 15px 0; border-left: 4px solid #ffc107;">
+                        <strong>📋 Khi đến cần mang theo hồ sơ gồm:</strong><br>
+                        <ul style="margin: 10px 0; padding-left: 20px;">
+                            <li>Đơn xin việc</li>
+                            <li>Sơ yếu lí lịch</li>
+                            <li>CMND/CCCD Photo</li>
+                            <li>1 Ảnh thẻ 3x4 (nếu có)</li>
+                        </ul>
+                        <em>Lưu ý: Vui lòng chuẩn bị đầy đủ hồ sơ để hoàn tất thủ tục nhập việc.</em>
+                    </div>
                     
                     <p>Chúng tôi rất mong được chào đón bạn vào đại gia đình WELL CENTER!</p>
                     
