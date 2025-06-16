@@ -211,11 +211,157 @@
             transition: all 0.3s ease;
             box-shadow: 0 4px 6px rgba(59, 130, 246, 0.3);
         }
-        
-        .cta-button:hover {
+          .cta-button:hover {
             color: rgb(0, 0, 0);
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(255, 167, 38, 0.4);
+        }
+        
+        .job-description-button {
+            background: linear-gradient(135deg, #4CAF50 0%, #45A049 100%);
+            border: none;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-block;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(76, 175, 80, 0.3);
+            margin-top: 1rem;
+        }
+        
+        .job-description-button:hover {
+            background: linear-gradient(135deg, #45A049 0%, #4CAF50 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.4);
+        }
+        
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 600px;
+            position: relative;
+            animation: slideIn 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideIn {
+            from { 
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to { 
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            line-height: 1;
+        }
+        
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+        }
+        
+        .modal-header {
+            border-bottom: 2px solid #FFA726;
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .modal-title {
+            color: #FF7043;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0;
+        }
+        
+        .job-content {
+            line-height: 1.8;
+            color: #333;
+        }
+        
+        .job-content h4 {
+            color: #FF7043;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .job-content ul {
+            padding-left: 1.5rem;
+            margin: 1rem 0;
+        }
+        
+        .job-content li {
+            margin-bottom: 0.8rem;
+        }
+          .salary-highlight {
+            background: linear-gradient(135deg, #FFA726 0%, #FF7043 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 1.5rem;
+        }
+        
+        /* Responsive design for mobile */
+        @media (max-width: 768px) {
+            .job-description-button {
+                margin-left: 0;
+                margin-top: 1rem;
+                width: 100%;
+                display: block;
+            }
+            
+            .cta-section {
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .modal-content {
+                margin: 10% auto;
+                width: 95%;
+                padding: 1.5rem;
+            }
+            
+            .modal-title {
+                font-size: 1.3rem;
+            }
         }
         .container {
             padding: 0;
@@ -513,11 +659,13 @@
                 <div class="hero-text">
                     <p class="hero-subtitle">Nơi Khởi Nguồn Sự Nghiệp Của Bạn</p>
                     <p class="hero-description">
-                        Well Center là một công ty chuyên cung cấp các sản phẩm bổ trợ sức khỏe và đồ dùng trong gia đình. Well Center hướng đến việc giúp khách hàng có một cuộc sống khỏe mạnh hơn thông qua các sản phẩm dinh dưỡng và chăm sóc bản thân, gia đình. Well Center cũng thường xuyên tuyển dụng các vị trí như nhân viên chăm sóc khách hàng, nhân viên kinh doanh, tư vấn sản phẩm, với chính sách đào tạo từ đầu cho những ứng viên chưa có kinh nghiệm.
-                    <div class="cta-section">
+                        Well Center là một công ty chuyên cung cấp các sản phẩm bổ trợ sức khỏe và đồ dùng trong gia đình. Well Center hướng đến việc giúp khách hàng có một cuộc sống khỏe mạnh hơn thông qua các sản phẩm dinh dưỡng và chăm sóc bản thân, gia đình. Well Center cũng thường xuyên tuyển dụng các vị trí như nhân viên chăm sóc khách hàng, nhân viên kinh doanh, tư vấn sản phẩm, với chính sách đào tạo từ đầu cho những ứng viên chưa có kinh nghiệm.                    <div class="cta-section">
                         <a href="#application-form" class="cta-button">
                             <i class="fas fa-rocket"></i> Sau khi điền thông tin ứng tuyển bạn sẽ được quyền truy cập web nội bộ!
                         </a>
+                        <button class="job-description-button" onclick="openJobModal()">
+                            <i class="fas fa-info-circle"></i> Mô tả công việc
+                        </button>
                     </div>
                 </div>
             </div>
@@ -812,8 +960,56 @@
                 if (fileInput.files[0].size > maxSize) {
                     e.preventDefault();
                     alert('File CV quá lớn! Vui lòng chọn file nhỏ hơn 5MB.');
-                    return false;
-                }
+                    return false;                }
+            }
+        });
+    </script>
+
+    <!-- Job Description Modal -->
+    <div id="jobModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">MÔ TẢ CÔNG VIỆC</h2>
+                <span class="close" onclick="closeJobModal()">&times;</span>
+            </div>
+            <div class="job-content">
+                <ul>
+                    <li>Làm việc trong môi trường văn phòng máy lạnh và làm giờ hành chính</li>
+                    <li>Không tăng ca - không mang việc về nhà</li>
+                    <li>Gọi điện, tư vấn khách hàng thông qua hệ thống của công ty và cung cấp thiết bị làm việc như laptop, tai nghe,...</li>
+                    <li>Chăm sóc khách hàng trong quá trình sử dụng sản phẩm, tư vấn nâng cấp sản phẩm và tư vấn giải pháp phù hợp cho khách hàng</li>
+                    <li>Tham gia đóng góp thông tin từ phản hồi của khách hàng để phát triển, cải tiến sản phẩm</li>
+                </ul>
+                <div class="salary-highlight">
+                    Lương cứng: 6.000.000 + Hoa Hồng
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openJobModal() {
+            document.getElementById('jobModal').style.display = 'block';
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        }
+
+        function closeJobModal() {
+            document.getElementById('jobModal').style.display = 'none';
+            document.body.style.overflow = 'auto'; // Restore scrolling
+        }
+
+        // Close modal when clicking outside of it
+        window.onclick = function(event) {
+            const modal = document.getElementById('jobModal');
+            if (event.target == modal) {
+                closeJobModal();
+            }
+        }
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeJobModal();
             }
         });
     </script>
