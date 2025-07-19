@@ -1,0 +1,105 @@
+version: '3.8'
+
+services:
+  # Redis for session storage
+  redis:
+    image: redis:7-alpine
+    container_name: ai-interview-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # AI Interview API
+  ai-interview-api:
+    build:
+      context: ../api
+      dockerfile: ../docker/Dockerfile.api
+    container_name: ai-interview-api
+    ports:
+      - "8000:8000"
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - MODEL_PATH=/app/models/ai-interview-model
+      - DEBUG=false
+      - LOG_LEVEL=INFO
+    volumes:
+      - model_data:/app/models
+      - ./logs:/app/logs
+    depends_on:
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+  # Frontend (if separate from main app)
+  ai-interview-frontend:
+    build:
+      context: ../frontend
+      dockerfile: ../docker/Dockerfile.frontend
+    container_name: ai-interview-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://localhost:8000
+    depends_on:
+      ai-interview-api:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # Nginx proxy (optional)
+  nginx:
+    image: nginx:alpine
+    container_name: ai-interview-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - ai-interview-api
+      - ai-interview-frontend
+    restart: unless-stopped
+
+  # PostgreSQL for persistent data (optional)
+  postgres:
+    image: postgres:15-alpine
+    container_name: ai-interview-postgres
+    environment:
+      - POSTGRES_DB=ai_interview
+      - POSTGRES_USER=ai_interview_user
+      - POSTGRES_PASSWORD=secure_password_123
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ai_interview_user -d ai_interview"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  redis_data:
+    driver: local
+  model_data:
+    driver: local
+  postgres_data:
+    driver: local
+
+networks:
+  default:
+    name: ai-interview-network
